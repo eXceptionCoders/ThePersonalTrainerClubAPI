@@ -45,5 +45,5 @@ steps:
 # To create a .zip file archive that is ready for publishing to a web app, add the following snippet:
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+#    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
     includeRootFolder: false
