@@ -22,7 +22,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
     artifactName: 'api' 
 
 # To upload a subset of files, first copy the necessary files from the working directory to a staging directory, and then use the PublishBuildArtifacts task.
@@ -45,5 +45,5 @@ steps:
 # To create a .zip file archive that is ready for publishing to a web app, add the following snippet:
 - task: ArchiveFiles@2
   inputs:
-#    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
     includeRootFolder: false
