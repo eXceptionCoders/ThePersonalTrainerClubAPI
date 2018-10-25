@@ -11,11 +11,12 @@ steps:
   inputs:
     versionSpec: '8.x'
   displayName: 'Install Node.js'
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
 
 - script: |
     npm install
   displayName: 'npm install'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
