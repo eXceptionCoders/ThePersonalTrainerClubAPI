@@ -43,7 +43,7 @@ steps:
 # - task: PublishBuildArtifacts@1
 
 # To create a .zip file archive that is ready for publishing to a web app, add the following snippet:
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+#     includeRootFolder: false
