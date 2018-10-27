@@ -1,14 +1,32 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+/**
+ * @author David López Rguez
+ * @description The Personal Trainer Club Reestful API
+ * @version 1.0.0
+ */
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+'use strict';
 
-var app = express();
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+const BaseResponse = require('./schema/BaseResponse');
+const DataResponse = require('./schema/DataResponse');
+const PaginatedResponse = require('./schema/PaginatedResponse');
+
+const CustomError = require('./schema/CustomError');
+const ErrorResponse = require('./schema/ErrorResponse');
+
+// Routes
+const index = require('./routes/index');
+const users = require('./routes/api/v1/users');
+
+const app = express();
+
+// DB connector
+require('./lib/mongooseConnection');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -16,31 +34,83 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger('dev', {
+  skip: (req, res) => {
+    return res.statusCode < 400; 
+  }
+}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+// standardized responses for API
+app.use((req, res, next) => {
 
+  res.ptcResponse = () => {
+    res.status(200).json(new BaseResponse());
+  };
+
+  res.ptcDataResponse = (data) => {
+    res.status(200).json(new DataResponse(data));
+  };
+
+  res.ptcPaginatedResponse = (rows, total) => {
+    res.status(200).json(new PaginatedResponse(rows, total));
+  };
+
+  next();
+});
+
+app.use('/', index);
+app.use('/api/v1/:lang(en|es)/users', language, users);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use((err, req, res, next) => {
+  const customError = new CustomError(err, req.language, isAPI(req));
 
-  // render the error page
-  res.status(err.status || 500);
+  res.status(customError.status || 500);
+
+  if (isAPI(req)) {
+    res.json(new ErrorResponse(customError));
+    return;
+  }
+  
+  // set locals, only providing error in development
+  res.locals.message = customError.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.render('error');
 });
+
+//#region Helpers
+
+/**
+ * Checks if the current request is a API request.
+ * @param {Request} req 
+ * @return {bool} 
+ */
+function isAPI(req) {
+  return req.originalUrl.indexOf('/api/v') === 0;
+}
+
+/**
+ * Middleware to set the language.
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {Function} next 
+ */
+function language(req, res, next) {
+  req.language = req.params.lang; 
+  next(); 
+}
+
+//#endregion
 
 module.exports = app;
