@@ -26,7 +26,7 @@ const users = require('./routes/api/v1/users');
 const app = express();
 
 // DB connector
-// require('./lib/mongooseConnection');
+require('./lib/mongooseConnection');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
