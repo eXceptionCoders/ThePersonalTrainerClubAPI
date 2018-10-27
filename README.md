@@ -2,7 +2,7 @@
 
 ## Información general
 
-**Nodepop** es un API para la gestión de anuncios. La api permite las siguientes acciones:
+**The Personal Trainer Club API** es un API para la gestión de entrenadores & deportistas. La api permite las siguientes acciones:
 - Registro de usuarios.
 - Autenticación.
 - TODO ...
