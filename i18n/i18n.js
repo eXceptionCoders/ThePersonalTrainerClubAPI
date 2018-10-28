@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 
-const i18n = JSON.parse( fs.readFileSync(__dirname + "//i18n///i18n.json", "utf8") );
+const i18n = JSON.parse( fs.readFileSync(__dirname + "//i18n.json", "utf8") );
 
 /**
  * Translates the token for the language given.
