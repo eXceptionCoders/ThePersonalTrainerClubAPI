@@ -115,7 +115,7 @@ En caso de error se añade el campo **error**.
 	"name": "",
 	"lastName": "",
 	"birthday": "yyyy-mm-dd",
-	"gender": ["male","female"],
+	"gender": "male | female",
 	"thumbnail": "",
 	"email": "",
 	"locations": [],
@@ -142,8 +142,8 @@ En caso de error se añade el campo **error**.
 	"user": "",
 	"name": "",
 	"description": "",
-	"freeCoupon": [true,false],
-	"forSale": [true,false],
+	"freeCoupon": false,
+	"forSale": true,
 	"price": 0,
 	"photo": "",
 	"startDate": "",
@@ -153,7 +153,7 @@ En caso de error se añade el campo **error**.
 		"minute": "",
 	},
 	"duration": 0.5,
-	"frecuency": ["unique", "diary", "weekly", "monthly"],
+	"frecuency": "unique | diary | weekly | monthly",
 	"quota": 10,
 	"location": {
 		"type": "Point",
@@ -183,7 +183,7 @@ En caso de error se añade el campo **error**.
 	"user": "",
 	"class": "",
 	"comment": "",
-	"freeCoupon": [true,false],
+	"freeCoupon": false,
 	"date": "",
 	"createdAt": ""
 }
