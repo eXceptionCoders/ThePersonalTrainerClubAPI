@@ -14,6 +14,14 @@ const UserSchema = mongoose.Schema({
     trim: true, 
     index: true 
   },
+  lastName: {
+    type: String, 
+    required: [true, 'LASTNAME_REQUIRED'], 
+    minLength: [3, 'LASTNAME_TOO_SHORT'], 
+    maxLength: [255, 'LASTNAME_TOO_LONG'], 
+    trim: true, 
+    index: true 
+  },
   gender: { 
     type: String, 
     required: [true, 'GENDER_REQUIRED'], 
