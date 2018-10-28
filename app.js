@@ -65,6 +65,7 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');

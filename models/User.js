@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const Schema = mongoose.Schema;
 
 const UserSchema = mongoose.Schema({
   type: { type: String, default: 'user' },
@@ -22,6 +23,19 @@ const UserSchema = mongoose.Schema({
     trim: true, 
     index: true 
   },
+  birthday: {
+    type: Date,
+    required: [true, 'BIRTHDAY_REQUIRED'], 
+    validate: {
+      validator: function(v) {
+        var date = new Date.now;
+        date.setFullYear( date.getFullYear() - 16 );
+
+        return validator.isAfter(v, date);
+      },
+      message: 'BIRTHDAY_NOT_VALID'
+    },
+  },
   gender: { 
     type: String, 
     required: [true, 'GENDER_REQUIRED'], 
@@ -29,7 +43,7 @@ const UserSchema = mongoose.Schema({
   },
   thumbnail: { type: String },
   email: { 
-    type: String, 
+    type: String,
     required: [true, 'EMAIL_REQUIRED'], 
     validate: {
       validator: function(v) {
@@ -41,10 +55,16 @@ const UserSchema = mongoose.Schema({
     index: true, 
     unique: true 
   },
+  locations: [{
+    type: { type: String, default: 'Point' },
+    description: { type: String },
+    coordinates: []
+  }],
   password: { type: String, required: [true, 'PASSWORD_REQUIRED'] },
-  createdAt: { type: Date, default: Date.now }
-}, { collection: 'users' }); // si no se indica collections tomara el nombre
-                             // del model en minuscula y pluralizado
+  description: { type: String },
+  classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }]
+}, { collection: 'users', timestamps: true }); // si no se indica collections tomara el nombre
+                                               // del model en minuscula y pluralizado
 
 //#region Static Methods
 
