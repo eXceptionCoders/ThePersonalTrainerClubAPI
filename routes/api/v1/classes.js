@@ -47,7 +47,7 @@ router.get('/', [
 
     const result = await Class.list(filter, page, per_page, sort, fields);
 
-    res.nodepopPaginatedData( result.rows, result.total );
+    res.ptcPaginatedResponse( result.rows, result.total );
   } catch (err) {
       next(err);
   }
