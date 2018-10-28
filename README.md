@@ -107,10 +107,7 @@ En caso de error se añade el campo **error**.
 ```
 
 ## Modelo
-```mermaid
-graph LR
-Ad[Ad] -- A user can have zero, one or more ads --> User[User]
-```
+
 ### User
 ```json
 {
