@@ -28,7 +28,7 @@ class CustomError extends Error {
       default:
         this.errorType = 'Unknown error';
         break;
-    };
+    }
 
     this.formatExpressValidatorErrors();
     this.formatMongooseErrors();
