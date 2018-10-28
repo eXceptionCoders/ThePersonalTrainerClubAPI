@@ -28,10 +28,9 @@ const UserSchema = mongoose.Schema({
     required: [true, 'BIRTHDAY_REQUIRED'], 
     validate: {
       validator: function(v) {
-        var date = new Date.now;
+        var date = new Date();
         date.setFullYear( date.getFullYear() - 16 );
-
-        return validator.isAfter(v, date);
+        return v instanceof Date ? v <= date : validator.isAfter(v, date);
       },
       message: 'BIRTHDAY_NOT_VALID'
     },

@@ -116,24 +116,78 @@ Ad[Ad] -- A user can have zero, one or more ads --> User[User]
 {
 	"type": "user",
 	"name": "",
+	"lastName": "",
+	"birthday": "yyyy-mm-dd",
 	"gender": ["male","female"],
 	"thumbnail": "",
 	"email": "",
+	"locations": [],
+	"description": "",
 	"password": "",
+	"classes": [],
 	"createdAt": ""
 }
 ```
-### Ad
+### Review
 ```json
 {
-	"type": "ad",
+	"type": "review",
+	"user": "",
+	"stars": 4,
+	"comment": "",
+	"createdAt": ""
+}
+```
+### Class
+```json
+{
+	"type": "class",
 	"user": "",
 	"name": "",
 	"description": "",
+	"freeCoupon": [true,false],
 	"forSale": [true,false],
 	"price": 0,
 	"photo": "",
-	"tags": [],
+	"startDate": "",
+	"endDate": "",
+	"time": {
+		"hour": "",
+		"minute": "",
+	},
+	"duration": 0.5,
+	"frecuency": ["unique", "diary", "weekly", "monthly"],
+	"quota": 10,
+	"location": {
+		"type": "Point",
+		"description": "",
+		"coordinates": []
+	},
+	"activities": [],
+	"reviews": [],
+	"createdAt": ""
+}
+```
+### Activity
+```json
+{
+	"type": "activity",
+	"name": "",
+	"category:": "",
+	"thumbnail": "",
+	"description": "",
+	"createdAt": ""
+}
+```
+### Booking
+```json
+{
+	"type": "booking",
+	"user": "",
+	"class": "",
+	"comment": "",
+	"freeCoupon": [true,false],
+	"date": "",
 	"createdAt": ""
 }
 ```
