@@ -65,7 +65,7 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
-// app.use('/api/v1/:lang(en|es)/classes', language, users);
+app.use('/api/v1/:lang(en|es)/classes', language, users);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -62,7 +62,7 @@ ClassSchema.index({ location: "2dsphere" });
  *  - forSale: false | true
  *  - price: 0-50 | 10- | -50 | 50
  *  - name: Regex /^name/i
- *  - location: long-latt
+ *  - location: long;latt
  * @param page
  * @param per_page
  * @param sort
