@@ -13,7 +13,7 @@ Para iniciar el cluster: `npm run cluster`
 
 ## Demo desplegada en Azure
 
-[Index - API](https://thepersonaltrainerclubapi.azurewebsites.net)
+[API](https://thepersonaltrainerclubapi.azurewebsites.net)
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
