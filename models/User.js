@@ -41,6 +41,7 @@ const UserSchema = mongoose.Schema({
     enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
   },
   thumbnail: { type: String },
+  isTrainer: { type: Boolean, required: true, default: false },
   email: { 
     type: String,
     required: [true, 'EMAIL_REQUIRED'], 
