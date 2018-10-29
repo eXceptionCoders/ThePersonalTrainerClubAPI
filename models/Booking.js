@@ -14,7 +14,7 @@ const BookingSchema = mongoose.Schema({
     date: { type: Date }
   }
 }, { collection: 'bookings', timestamps: true }); // si no se indica collections tomara el nombre
-                                                    // del model en minuscula y pluralizado
+                                                  // del model en minuscula y pluralizado
 
 //#region Static Methods
 //#endregion

@@ -62,7 +62,8 @@ const UserSchema = mongoose.Schema({
   }],
   password: { type: String, required: [true, 'PASSWORD_REQUIRED'] },
   description: { type: String },
-  classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }]
+  // classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
+  // reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
 }, { collection: 'users', timestamps: true }); // si no se indica collections tomara el nombre
                                                // del model en minuscula y pluralizado
 

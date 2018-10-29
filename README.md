@@ -161,7 +161,6 @@ En caso de error se añade el campo **error**.
 		"coordinates": []
 	},
 	"activities": [],
-	"reviews": [],
 	"createdAt": ""
 }
 ```

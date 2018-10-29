@@ -39,8 +39,7 @@ const ClassSchema = mongoose.Schema({
     description: { type: String },
     coordinates: []
   },
-  activities: [{ type: Schema.Types.ObjectId, ref: 'Activity' }],
-  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
+  activities: [{ type: Schema.Types.ObjectId, ref: 'Activity' }]
 }, { collection: 'classes', timestamps: true }); // si no se indica collections tomara el nombre
                                                  // del model en minuscula y pluralizado
 
