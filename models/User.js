@@ -41,7 +41,6 @@ const UserSchema = mongoose.Schema({
     enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
   },
   thumbnail: { type: String },
-  isTrainer: { type: Boolean, required: true, default: false },
   email: { 
     type: String,
     required: [true, 'EMAIL_REQUIRED'], 
@@ -60,6 +59,15 @@ const UserSchema = mongoose.Schema({
     description: { type: String },
     coordinates: []
   }],
+  profiles: {
+    trainer: {
+      enabled: { type: Boolean, default: false },
+      description: { type: String, default: '' },  
+    },
+    athlete: {
+      description: { type: String, default: '' },
+    }
+  },
   password: { type: String, required: [true, 'PASSWORD_REQUIRED'] },
   description: { type: String },
   // classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
