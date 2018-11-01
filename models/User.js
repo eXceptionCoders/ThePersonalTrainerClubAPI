@@ -3,10 +3,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
-const Schema = mongoose.Schema;
 
 const UserSchema = mongoose.Schema({
   type: { type: String, default: 'user' },
+  coach: {
+    type: Boolean,
+    required: [true, 'TYPE_USER_REQUIRED']
+  },
   name: { 
     type: String, 
     required: [true, 'NAME_REQUIRED'], 
@@ -23,9 +26,10 @@ const UserSchema = mongoose.Schema({
     trim: true, 
     index: true 
   },
+  /*
   birthday: {
     type: Date,
-    required: [true, 'BIRTHDAY_REQUIRED'], 
+    required: [false, 'BIRTHDAY_REQUIRED'], 
     validate: {
       validator: function(v) {
         var date = new Date();
@@ -37,11 +41,10 @@ const UserSchema = mongoose.Schema({
   },
   gender: { 
     type: String, 
-    required: [true, 'GENDER_REQUIRED'], 
+    required: [false, 'GENDER_REQUIRED'], 
     enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
-  },
+  },*/
   thumbnail: { type: String },
-  isTrainer: { type: Boolean, required: true, default: false },
   email: { 
     type: String,
     required: [true, 'EMAIL_REQUIRED'], 
@@ -55,14 +58,28 @@ const UserSchema = mongoose.Schema({
     index: true, 
     unique: true 
   },
-  locations: [{
+  password: {
+    type: String,
+    required: [true, 'PASSWORD_REQUIRED']
+  },
+  description: { 
+    type: String, 
+    required: [false, 'DESCRIPTION_REQUIRED'], 
+    maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
+  },
+  /*locations: [{
     type: { type: String, default: 'Point' },
     description: { type: String },
     coordinates: []
+  }],*/
+  sports: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Sport'
   }],
-  password: { type: String, required: [true, 'PASSWORD_REQUIRED'] },
-  description: { type: String },
-  // classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
+  classes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Class'
+  }],
   // reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
 }, { collection: 'users', timestamps: true }); // si no se indica collections tomara el nombre
                                                // del model en minuscula y pluralizado

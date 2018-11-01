@@ -3,25 +3,36 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const DURATION = [30,45,60,90,120]
 const FREQUENCY = ['unique', 'diary', 'weekly', 'monthly'];
 
-const ClassSchema = mongoose.Schema({
-  type: { type: String, default: 'class' },
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
-  name: { 
-    type: String, 
-    required: [true, 'NAME_REQUIRED'], 
-    minLength: [3, 'NAME_TOO_SHORT'], 
-    maxLength: [255, 'NAME_TOO_LONG'], 
-    index: true, 
-    trim: true 
+const ClassesSchema = mongoose.Schema({
+  type: { type: String, default: 'classes' },
+  instructor: { 
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  freeCoupon: { type: Boolean, default: false },
+  sport: {
+    type: Schema.Types.ObjectId,
+    ref: 'Sports',
+    required: true
+  },
+  duration: {
+    type: number,
+    enum: {values: DURATION, message: 'UNKNOWN_DURATION'}
+  },
+  price: { 
+    type: Number,
+    min: [0, 'PRICE_GT_0'],
+    max: [50, 'PRICE_LTE_50']
+  },
   description: { 
     type: String, 
-    required: [true, 'DESCRIPTION_REQUIRED'], 
+    required: [false, 'DESCRIPTION_REQUIRED'], 
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
   },
+  /*
   forSale: { type: Boolean, default: true },
   price: { type: Number, min: [1, 'PRICE_GTE_0'] },
   photo: { type: String },
@@ -40,6 +51,7 @@ const ClassSchema = mongoose.Schema({
     coordinates: []
   },
   activities: [{ type: Schema.Types.ObjectId, ref: 'Activity' }]
+  */
 }, { collection: 'classes', timestamps: true }); // si no se indica collections tomara el nombre
                                                  // del model en minuscula y pluralizado
 
@@ -141,6 +153,6 @@ ClassSchema.pre('save', function(next) {
 
 //#endregion
 
-const Class = mongoose.model('Class', ClassSchema);
+const Classes = mongoose.model('Class', ClassesSchema);
 
-module.exports = Class;
+module.exports = Classes;

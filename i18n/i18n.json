@@ -1,6 +1,7 @@
 {
   "en": {
     "errors": {
+      "TYPE_USER_REQUIRED": "Type of user required",
       "NAME_REQUIRED": "Name required",
       "NAME_TOO_SHORT": "Name too short",
       "NAME_TOO_LONG": "Name too long",
@@ -12,7 +13,8 @@
       "DESCRIPTION_TOO_LONG": "Description too long",
       "BIRTHDAY_REQUIRED": "Birthday required",
       "BIRTHDAY_NOT_VALID": "You must be at least 16-year old",
-      "PRICE_GTE_0": "Price greater than 0",
+      "PRICE_GT_0": "Price greater or equal than 0",
+      "PRICE_LTE_50": "Price least or equal than 50",
       "DURATION_GTE_0": "Duration greater than 0",
       "UNKNOWN_TAG": "Unknown tag",
       "CATEGORY_REQUIRED": "Category required",
@@ -30,6 +32,7 @@
       "MINUTE_GTE_0": "Invalid minute",
       "MINUTE_LTE_59": "Invalid minute",
       "UNKNOWN_FREQUENCY": "Frecuency must be 'unique', 'diary', 'weekly' o 'monthly'",
+      "UNKNOWN_DURATION": "Duration must be 30, 45, 60, 90, or 120",
       "QUOTA_REQUIRED": "Quota required",
       "STARS_REQUIRED": "Stars required",
       "STAR_GTE_1": "The review must be greater or equal to 1",
@@ -41,11 +44,17 @@
       "PER_PAGE_MUST_BE_NUMERIC": "'per_page' must be a numeric",
       "INCORRECT_USER_OR_PASS": "Incorrect user or password",
       "NO_TOKEN_PROVIDED": "No token provided",
-      "INVALID_TOKEN": "Invalid token"
+      "INVALID_TOKEN": "Invalid token",
+      "HOURS_GTE_0": "The hours for cancelation must be greater or equal to 0",
+      "DISCOUNT_GTE_0": "The discount must be greater or equal to 0",
+      "DISCOUNT_LTE_100": "The discount must be lesser or equal to 100",
+      "COMMENT_REQUIRED": "Comment is required",
+      "COMMENT_TOO_LONG": "Comment too long"
     }
   },
   "es": {
     "errors": {
+      "TYPE_USER_REQUIRED": "El tipo de usuario es obligatorio",
       "NAME_REQUIRED": "El nombre es obligatorio",
       "NAME_TOO_SHORT": "El nombre es demasiado corto",
       "NAME_TOO_LONG": "El nombre es demasiado largo",
@@ -57,7 +66,8 @@
       "DESCRIPTION_TOO_LONG": "La descripción es demasiado larga",
       "BIRTHDAY_REQUIRED": "La fecha de nacimiento es obligatoria",
       "BIRTHDAY_NOT_VALID": "Debes tener al menos 16 años",
-      "PRICE_GTE_0": "El precio debe ser un número positivo",
+      "PRICE_GT_0": "El precio debe ser un número positivo o cero",
+      "PRICE_LTE_50": "el precio debe ser menos o igual 50",
       "DURATION_GTE_0": "El duración debe ser un número positivo",
       "UNKNOWN_TAG": "Etiqueta desconocida",
       "CATEGORY_REQUIRED": "La categoría es obligatoria",
@@ -75,6 +85,7 @@
       "MINUTE_GTE_0": "Minuto invalido",
       "MINUTE_LTE_59": "Minuto invalido",
       "UNKNOWN_FREQUENCY": "La frecuencia debe ser 'unique', 'diary', 'weekly' o 'monthly' ",
+      "UNKNOWN_DURATION": "La duracion debe ser 30, 45, 60, 90, or 120",
       "QUOTA_REQUIRED": "Cupo máximo es obligatorio",
       "STARS_REQUIRED": "Valoración obligatoria",
       "STAR_GTE_1": "La valoración debe ser mayor o igual a 1",
@@ -86,7 +97,12 @@
       "PER_PAGE_MUST_BE_NUMERIC": "'per_page' debe ser un número",
       "INCORRECT_USER_OR_PASS": "Usuario o contraseña incorrecta",
       "NO_TOKEN_PROVIDED": "Token no proporcionado",
-      "INVALID_TOKEN": "Token inválido"
+      "INVALID_TOKEN": "Token inválido",
+      "HOURS_GTE_0": "Las horas para cancelar debarian ser mayores o iguales a 0",
+      "DISCOUNT_GTE_0": "El descuento debe ser mayor o igual a 0",
+      "DISCOUNT_LTE_100": "El descuento debe ser menor o igual a 100",
+      "COMMENT_REQUIRED": "No comentario no puede estar vacio",
+      "COMMENT_TOO_LONG": "El texto del comentario es demasiado largo"
     }
   }
 }
