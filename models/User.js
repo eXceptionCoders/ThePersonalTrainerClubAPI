@@ -16,7 +16,7 @@ const UserSchema = mongoose.Schema({
     minLength: [3, 'NAME_TOO_SHORT'], 
     maxLength: [255, 'NAME_TOO_LONG'], 
     trim: true, 
-    index: true 
+    index: true
   },
   lastName: {
     type: String, 
@@ -26,24 +26,6 @@ const UserSchema = mongoose.Schema({
     trim: true, 
     index: true 
   },
-  /*
-  birthday: {
-    type: Date,
-    required: [false, 'BIRTHDAY_REQUIRED'], 
-    validate: {
-      validator: function(v) {
-        var date = new Date();
-        date.setFullYear( date.getFullYear() - 16 );
-        return v instanceof Date ? v <= date : validator.isAfter(v, date);
-      },
-      message: 'BIRTHDAY_NOT_VALID'
-    },
-  },
-  gender: { 
-    type: String, 
-    required: [false, 'GENDER_REQUIRED'], 
-    enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
-  },*/
   thumbnail: { type: String },
   email: { 
     type: String,
@@ -73,13 +55,13 @@ const UserSchema = mongoose.Schema({
     coordinates: []
   }],*/
   sports: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Sport'
   }],
   classes: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Class'
-  }],
+  }]
   // reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
 }, { collection: 'users', timestamps: true }); // si no se indica collections tomara el nombre
                                                // del model en minuscula y pluralizado
@@ -136,7 +118,8 @@ UserSchema.post('save', function(error, doc, next) {
     };
     next( error );
   } else {
-    next(error);
+    console.log('Datos validos')
+    //next(error);
   }
 });
 

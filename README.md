@@ -2,7 +2,10 @@
 
 ## Información general
 
-**The Personal Trainer Club API** es un API para la gestión de entrenadores & deportistas. La api permite las siguientes acciones:
+**The Personal Trainer Club API** es un API para la gestión de entrenadores & deportistas.
+
+La api permite las siguientes acciones:
+
 - Registro de usuarios.
 - Autenticación.
 - TODO ...
@@ -57,12 +60,7 @@ En el caso de que la llamada devuelva algún dato se añade el campo **data**.
 	"status": "success",
 	"message": "OK",
 	"datetime": "2017-12-16T18:21:06.702Z",
-	"data": [
-		"work",
-		"lifestyle",
-		"motor",
-		"mobile"
-	]
+	"data": []
 }
 ```
 En el caso de que la llamada devuelva un resultado paginado se añade el campo **data** y **total**. Este último representa el número total de elementos.
@@ -75,19 +73,10 @@ En el caso de que la llamada devuelva un resultado paginado se añade el campo *
 	"data": [
 		{
 			"_id": "5a3444d83241a4ceea3457f8",
-			"user": "5a3444d73241a4ceea3457f3",
-			"name": "Clothes",
-			"description": "Ri miz zuzuja tufupa sis.",
-			"price": 6227.88,
-			"photo": "images/ads/500x300/05.jpg",
-			"createdAt": "2017-12-15T21:55:36.049Z",
-			"tags": [
-				"lifestyle",
-				"mobile"
-			],
-			"forSale": true,
-			"type": "ad"
-		}
+		},
+        {
+            "_id": "5a3444d83241a4ceea343479",
+        }...
 	],
 	"total": 19
 }
@@ -112,96 +101,92 @@ En caso de error se añade el campo **error**.
 ```json
 {
 	"type": "user",
+    "coach": Boolean,
 	"name": "",
 	"lastName": "",
-	"birthday": "yyyy-mm-dd",
-	"gender": "male | female",
-	"thumbnail": "",
-	"email": "",
-	"locations": [],
-	"description": "",
+    "thumbnail": "",
+    "email": "",
 	"password": "",
+	"sports": [],
 	"classes": [],
-	"createdAt": ""
+    "createdAt": IsoDate,
+    "updateAt": IsoDate
 }
 ```
-### Review
+### Categoty
+
 ```json
 {
-	"type": "review",
-	"user": "",
-	"stars": 4,
-	"comment": "",
-	"createdAt": ""
-}
-```
-### Class
-```json
-{
-	"type": "class",
-	"user": "",
+    "type": "category",
 	"name": "",
-	"description": "",
-	"freeCoupon": false,
-	"forSale": true,
-	"price": 0,
-	"photo": "",
-	"startDate": "",
-	"endDate": "",
-	"time": {
-		"hour": "",
-		"minute": "",
-	},
-	"duration": 0.5,
-	"frecuency": "unique | diary | weekly | monthly",
-	"quota": 10,
-	"location": {
-		"type": "Point",
-		"description": "",
-		"coordinates": []
-	},
-	"activities": [],
-	"createdAt": ""
 }
 ```
-### Activity
+
+### Sport
+
 ```json
 {
-	"type": "activity",
-	"name": "",
-	"category:": "",
-	"thumbnail": "",
-	"description": "",
-	"createdAt": ""
+    "type": "sport",
+    "name": "",
+    "category": IdCategoty
+}
+```
+
+### Cancelation
+
+```json
+{
+    "type": "cancelation",
+    "active": Boolean,
+    "description": "",
+    "hoursForCancelation": number,
+    "discount": number
+}
+```
+
+### Classes
+```json
+{
+	"type": "classes",
+    "instructor": IdUser,
+    "sport": IdSport,
+    "duration": number,
+    "price": number,
+    "description": "",
+    "createdAt": IsoDate,
+    "updateAt": IsoDate
 }
 ```
 ### Booking
 ```json
 {
 	"type": "booking",
-	"user": "",
-	"class": "",
-	"comment": "",
-	"freeCoupon": false,
-	"date": "",
-	"createdAt": ""
+    "active": Boolean,
+	"classReference": IdClass,
+    "registered": number,
+    "listUsers": [],
+   	"createdAt": IsoDate,
+    "updateAt": IsoDate
 }
 ```
 ## Registro de usuarios
 
 |URI             |METHOD                         |BODY                 |
 |----------------|-------------------------------|---------------------|
-|`/api/v1/:lang/users/signup`|`POST`|`{ name, gender, email, password }`|
+|`/api/v1/:lang/users/signup`|`POST`|`{ name, lastname, email, password, thumbnail, coach }`|
 
 ### Example
 `http://localhost:3000/api/v1/es/users/signup`
+
 ##### Body
 ```json
 {
 	"name": "Carlos",
-	"gender": "male",
+	"lastname": "Sanchez",
 	"email": "carlos@test.com",
-	"password": "1234"
+	"password": "1234",
+    "thumbnail": "https//...",
+    "coach": true
 }
 ```
 ##### Response
@@ -248,7 +233,8 @@ En caso de error se añade el campo **error**.
     "message": "OK",
     "datetime": "2017-12-16T20:22:06.386Z",
     "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4",
+    	"idUser": "gkñkgpf45435ñdlfñdslk"
     }
 }
 ```
@@ -262,3 +248,147 @@ En caso de error se añade el campo **error**.
     "error": "Usuario o contraseña incorrecta"
 }
 ```
+
+## Solicitud datos usuario
+
+| URI                         | METHOD | BODY        |
+| --------------------------- | ------ | ----------- |
+| `/api/v1/:lang/getuserdata` | `GET`  | `{ idUser}` |
+
+### Example
+
+`http://localhost:3000/api/v1/es/getuserdata/`
+
+##### Body
+
+```json
+{
+	"idUser": "gkñkgpf45435ñdlfñdslk",
+}
+```
+
+##### Response
+
+```json
+{
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T20:22:06.386Z",
+    "data": {
+        "type": "user",
+        "coach": true,
+        "name": "Carlos",
+        "lastName": "Sanchez",
+        "thumbnail": "https://...",
+        "sports": [],
+        "classes": [],
+        "createdAt": "2017-12-16T20:36:03.554Z",
+        "updateAt": "2017-12-16T20:36:03.554Z"
+    }
+}
+```
+
+##### Error
+
+```json
+{
+    "version": "1.0.0",
+    "status": "error",
+    "message": "Authentication error",
+    "datetime": "2017-12-16T20:36:03.554Z",
+    "error": "No existe el usuario especificado"
+}
+```
+
+## Seleccion de deportes
+
+| URI                         | METHOD | BODY                |
+| --------------------------- | ------ | ------------------- |
+| `/api/v1/:lang/changeSport` | `POST` | `{ id, listSport }` |
+
+### Example
+
+`http://localhost:3000/api/v1/es/changeSport/`
+
+##### Body
+
+```json
+{
+	"idUser": "gkñkgpf45435ñdlfñdslk",
+    "listsport": ["tenis", "baloncesto"]
+}
+```
+
+##### Response
+
+```json
+{
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T18:21:41.752Z"
+}
+```
+
+##### Error
+
+```json
+{
+    "version": "1.0.0",
+    "status": "error",
+    "message": "Authentication error",
+    "datetime": "2017-12-16T20:36:03.554Z",
+    "error": "No se pudo actualizar la lista"
+}
+```
+
+## Alta de clase
+
+| URI                         | METHOD | BODY              |
+| --------------------------- | ------ | ----------------- |
+| `/api/v1/:lang/addLocation` | `POST` | `{ id, classes }` |
+
+### Example
+
+`http://localhost:3000/api/v1/es/addLocation/`
+
+##### Body
+
+```json
+{
+	"idUser": "gkñkgpf45435ñdlfñdslk",
+    "class": {
+        "sport": "tenis",
+        "duration": 30,
+        "price": 14,
+        "description": "Clase de tenis para principiantes",
+        "createdAt": "2017-12-16T20:36:03.554Z",
+        "updateAt": "2017-12-16T20:36:03.554Z"
+    }
+}
+```
+
+##### Response
+
+```json
+{
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T18:21:41.752Z"
+}
+```
+
+##### Error
+
+```json
+{
+    "version": "1.0.0",
+    "status": "error",
+    "message": "Authentication error",
+    "datetime": "2017-12-16T20:36:03.554Z",
+    "error": "No se pudo crear la clase"
+}
+```
+
