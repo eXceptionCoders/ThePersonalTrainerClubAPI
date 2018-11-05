@@ -22,12 +22,18 @@ const ErrorResponse = require('./schema/ErrorResponse');
 // Routes
 const index = require('./routes/index');
 const users = require('./routes/api/v1/users');
-const tests = require('./routes/api/v1/tests');
+const datauser = require('./routes/api/v1/datauser');
 
 const app = express();
 
 // DB connector
 require('./lib/mongooseConnection');
+
+// start data in darabase
+if (process.env.INITDB == 'true') {
+  const newDataBase = require('./dataTest/createDataTest')
+  newDataBase()
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,8 +71,7 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
-app.use('/api/v1/:lang(en|es)/classes', language, users);
-app.use('/tests', language, tests);
+app.use('/api/v1/:lang(en|es)/datauser', language, datauser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

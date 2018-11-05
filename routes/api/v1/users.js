@@ -3,7 +3,6 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
 const { check, body, validationResult } = require('express-validator/check');
 
 const User = require('../../../models/User');
@@ -14,13 +13,13 @@ const User = require('../../../models/User');
  */ 
 router.post('/signup', (req, res, next) => {
   const user = new User(req.body);
-
+  console.log (req.body)
   user.save((err, userSaved ) => {
     if (err) {
+      console.log ('error')
       next(err);
       return;
     }
-
     res.ptcResponse();
   });
 });
@@ -59,7 +58,6 @@ router.post('/login', [
           next(err);
           return;
         }
-
         res.ptcDataResponse({ token });
       }
     );

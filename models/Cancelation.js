@@ -10,17 +10,17 @@ const CancelationSchema = mongoose.Schema({
   },
   description: { 
     type: String, 
-    required: [false, 'DESCRIPTION_REQUIRED'], 
+    required: [true, 'DESCRIPTION_REQUIRED'], 
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
   },
   hoursForCancelation: {
-    type: number,
+    type: Number,
     require: true,
     default: 0,
     min: [0, 'HOURS_GTE_0'],
   },
   discount: {
-    type: number,
+    type: Number,
     require: true,
     default: 0,
     min: [0, 'DISCOUNT_GTE_0'],

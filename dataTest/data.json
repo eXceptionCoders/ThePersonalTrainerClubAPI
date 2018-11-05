@@ -1,0 +1,61 @@
+{
+  "category": [
+    {"name": "pelota"},
+    {"name": "raqueta"},
+    {"name": "defensa personal"},
+    {"name": "acuaticos"}
+  ],
+  "sport": [
+    {"name": "futbol", "category": "pelota"},
+    {"name": "baloncesto", "category": "pelota"},
+    {"name": "voleibol", "category": "pelota"},
+    {"name": "balonmano", "category": "pelota"},
+    {"name": "tenis", "category": "raqueta"},
+    {"name": "padel", "category": "raqueta"},
+    {"name": "judo", "category": "defensa personal"},
+    {"name": "karate", "category": "defensa personal"},
+    {"name": "boxeo", "category":  "defensa personal"},
+    {"name": "remo", "category": "acuaticos"},
+    {"name": "natacion", "category": "acuaticos"},
+    {"name": "waterpolo", "category": "acuaticos"}
+  ],
+  "cancelation": [
+    {"active": true, "hoursForCancelation": 0, "discount": 100 , "description" : "La clase puede ser anulada de forma gratuita sin coste para el usuario. Pero debe darse de baja antes del inicio de la actividad para que no se considere que fue realizada"},
+    {"active": true, "hoursForCancelation": 24, "discount": 80 , "description" : "La clase puede ser anulada hasta 24 horas antes del inicio de la clase . Pero no se realizara un cargo del 20 % del coste de la clase en concepto gastos de gestion."},
+    {"active": true, "hoursForCancelation": 48, "discount": 90 , "description" : "Este tipo solo es aplicable a clases con un inicio superior a 48h desde la compra y la clase puede ser anulada hasta 24 horas antes teniendo un coste del 10% del coste de la clase."}
+  ],
+  "users": [
+    {"coach": true, "name": "Daniel", "lastName": "Villel Garcia",
+    "thumbnail": "https://randomuser.me/api/portraits/med/men/45.jpg",
+    "email": "name1@gmail.com",
+    "password": "$2a$10$RvcTBObd9qZ1xV.RgTj0T.MCy.e0/LudDMY3hb8r2Gd1mhegDndmO",
+    "description": "Entrenador de judo 2 Dan con 10 años de experiencia",
+    "sport": [],
+    "classes": []
+    },
+    {"coach": false, "name": "Manuel", "lastName": "Perez Soriano",
+    "thumbnail": "https://randomuser.me/api/portraits/med/men/65.jpg",
+    "email": "name2@gmail.com",
+    "password": "$2a$10$5HIXbcBL5RuRNibZVVpS1O0hEXnUHxbDp7wBMw7lxoffxFeoCf7mq",
+    "description": "Amante de los deportes de raqueta",
+    "sport": [],
+    "classes": []
+    },
+    {"coach": false, "name": "Jose", "lastName": "Santos Del Valle",
+      "thumbnail": "https://randomuser.me/api/portraits/med/men/35.jpg",
+      "email": "name3@gmail.com",
+      "password": "$2a$10$4oeM540wxsgtkLPvyWmA0u34Dd2vQmIK/nJaZh9SWmLpMwqLJu.56",
+      "description": "Me gusta cualquier tipo de arte marcial y deportes al aire libre",
+      "sport": [],
+      "classes": []
+    }
+  ],
+  "classes": [
+    {"instructor": "Daniel",
+    "sport": "judo",
+    "duration": 30,
+    "price": 14,
+    "description": "Clase de jugo para iniciantes"
+    }
+  ]
+}

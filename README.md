@@ -8,10 +8,11 @@ La api permite las siguientes acciones:
 
 - Registro de usuarios.
 - Autenticación.
-- TODO ...
+- Alta de clases.
+- Busqueda de clases.
+- Insccripcion en una clase.
 
 Para iniciar el API: `npm run start`
-<br>
 Para iniciar el cluster: `npm run cluster`
 
 ## Demo desplegada en Azure
@@ -35,63 +36,63 @@ JWT_EXPIRESIN=2d
 ```
 ## TODO: Inicialización de base de datos de pruebas
 
-Para generar una base de datos de prueba ejecutar el comando siguiente:
+Para generar una base de datos cambiar la varibale INITDB en el .env:
 ```
-npm run installDB
+INITDB = true
 ```
-El script generará 10 usuarios y 50 anuncios que vinculará aleatoriamente a los usuarios.
+El script generará las cancelaciones, las categorias, los deportes y 3 usuarios.
 
 ## Respuestas de la API
 
 Las respuestas de la API están estandarizadas y devuelven una estructura común con los siguientes campos.
 ```json
 {
-	"version": "1.0.0",
-	"status": "success",
-	"message": "OK",
-	"datetime": "2017-12-16T18:20:34.871Z"
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T18:20:34.871Z"
 }
 ```
 En el caso de que la llamada devuelva algún dato se añade el campo **data**.
 
 ```json
 {
-	"version": "1.0.0",
-	"status": "success",
-	"message": "OK",
-	"datetime": "2017-12-16T18:21:06.702Z",
-	"data": []
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T18:21:06.702Z",
+    "data": []
 }
 ```
 En el caso de que la llamada devuelva un resultado paginado se añade el campo **data** y **total**. Este último representa el número total de elementos.
 ```json
 {
-	"version": "1.0.0",
-	"status": "success",
-	"message": "OK",
-	"datetime": "2017-12-16T18:21:06.702Z",
-	"data": [
-		{
-			"_id": "5a3444d83241a4ceea3457f8",
-		},
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T18:21:06.702Z",
+    "data": [
+        {
+            "_id": "5a3444d83241a4ceea3457f8",
+        },
         {
             "_id": "5a3444d83241a4ceea343479",
-        }...
-	],
-	"total": 19
+        }
+    ],
+    "total": 19
 }
 ```
 En caso de error se añade el campo **error**.
 
 ```json
 {
-	"version": "1.0.0",
-	"status": "error",
-	"message": "Query params error",
-	"datetime": "2017-12-16T19:13:25.886Z",
-	"error": {
-		"page": "'page' debe ser un múmero"
-	}
+    "version": "1.0.0",
+    "status": "error",
+    "message": "Query params error",
+    "datetime": "2017-12-16T19:13:25.886Z",
+    "error": {
+        "page": "'page' debe ser un múmero"
+    }
 }
 ```
 
@@ -100,17 +101,15 @@ En caso de error se añade el campo **error**.
 ### User
 ```json
 {
-	"type": "user",
-    "coach": Boolean,
-	"name": "",
-	"lastName": "",
+    "type": "user",
+    "coach": "Boolean",
+    "name": "",
+    "lastName": "",
     "thumbnail": "",
     "email": "",
-	"password": "",
-	"sports": [],
-	"classes": [],
-    "createdAt": IsoDate,
-    "updateAt": IsoDate
+    "password": "",
+    "sports": [],
+    "classes": [],
 }
 ```
 ### Categoty
@@ -118,7 +117,7 @@ En caso de error se añade el campo **error**.
 ```json
 {
     "type": "category",
-	"name": "",
+    "name": "",
 }
 ```
 
@@ -128,7 +127,7 @@ En caso de error se añade el campo **error**.
 {
     "type": "sport",
     "name": "",
-    "category": IdCategoty
+    "category": _idCategoty
 }
 ```
 
@@ -137,36 +136,32 @@ En caso de error se añade el campo **error**.
 ```json
 {
     "type": "cancelation",
-    "active": Boolean,
+    "active": "Boolean",
     "description": "",
-    "hoursForCancelation": number,
-    "discount": number
+    "hoursForCancelation": Number,
+    "discount": Number
 }
 ```
 
 ### Classes
 ```json
 {
-	"type": "classes",
-    "instructor": IdUser,
-    "sport": IdSport,
-    "duration": number,
-    "price": number,
-    "description": "",
-    "createdAt": IsoDate,
-    "updateAt": IsoDate
+    "type": "classes",
+    "instructor": _idUser,
+    "sport": _idSport,
+    "duration": Number,
+    "price": Number,
+    "description": ""
 }
 ```
 ### Booking
 ```json
 {
-	"type": "booking",
+    "type": "booking",
     "active": Boolean,
-	"classReference": IdClass,
-    "registered": number,
+    "classReference": _idClass,
+    "registered": Number,
     "listUsers": [],
-   	"createdAt": IsoDate,
-    "updateAt": IsoDate
 }
 ```
 ## Registro de usuarios
@@ -181,10 +176,10 @@ En caso de error se añade el campo **error**.
 ##### Body
 ```json
 {
-	"name": "Carlos",
-	"lastname": "Sanchez",
-	"email": "carlos@test.com",
-	"password": "1234",
+    "name": "Carlos",
+    "lastname": "Sanchez",
+    "email": "carlos@test.com",
+    "password": "1234",
     "thumbnail": "https//...",
     "coach": true
 }
@@ -233,8 +228,7 @@ En caso de error se añade el campo **error**.
     "message": "OK",
     "datetime": "2017-12-16T20:22:06.386Z",
     "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4",
-    	"idUser": "gkñkgpf45435ñdlfñdslk"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4"
     }
 }
 ```
@@ -251,19 +245,19 @@ En caso de error se añade el campo **error**.
 
 ## Solicitud datos usuario
 
-| URI                         | METHOD | BODY        |
-| --------------------------- | ------ | ----------- |
-| `/api/v1/:lang/getuserdata` | `GET`  | `{ idUser}` |
+| URI                         | METHOD | HEADERS                |
+| --------------------------- | ------ | ------------------- |
+| `/api/v1/:lang/getuserdata` | `GET`  | `{ x-access-token }` |
 
 ### Example
 
-`http://localhost:3000/api/v1/es/getuserdata/`
+`http://localhost:3000/api/v1/es/datauser/`
 
-##### Body
+##### Headers
 
 ```json
 {
-	"idUser": "gkñkgpf45435ñdlfñdslk",
+    "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4",
 }
 ```
 
@@ -283,8 +277,6 @@ En caso de error se añade el campo **error**.
         "thumbnail": "https://...",
         "sports": [],
         "classes": [],
-        "createdAt": "2017-12-16T20:36:03.554Z",
-        "updateAt": "2017-12-16T20:36:03.554Z"
     }
 }
 ```
@@ -303,20 +295,26 @@ En caso de error se añade el campo **error**.
 
 ## Seleccion de deportes
 
-| URI                         | METHOD | BODY                |
-| --------------------------- | ------ | ------------------- |
-| `/api/v1/:lang/changeSport` | `POST` | `{ id, listSport }` |
+| URI                         | METHOD | BODY                       | HEADERS|
+| --------------------------- | ------ | -------------------------- |--------|
+| `/api/v1/:lang/changesport` | `POST` | `{ listSport}`     |`{ x-access-token }`|
 
 ### Example
 
-`http://localhost:3000/api/v1/es/changeSport/`
+`http://localhost:3000/api/v1/es/changesport/`
 
 ##### Body
 
 ```json
 {
-	"idUser": "gkñkgpf45435ñdlfñdslk",
-    "listsport": ["tenis", "baloncesto"]
+    "listsport": ["tenis", "baloncesto"],
+}
+```
+##### Headers
+
+```json
+{
+    "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4",
 }
 ```
 
@@ -342,53 +340,3 @@ En caso de error se añade el campo **error**.
     "error": "No se pudo actualizar la lista"
 }
 ```
-
-## Alta de clase
-
-| URI                         | METHOD | BODY              |
-| --------------------------- | ------ | ----------------- |
-| `/api/v1/:lang/addLocation` | `POST` | `{ id, classes }` |
-
-### Example
-
-`http://localhost:3000/api/v1/es/addLocation/`
-
-##### Body
-
-```json
-{
-	"idUser": "gkñkgpf45435ñdlfñdslk",
-    "class": {
-        "sport": "tenis",
-        "duration": 30,
-        "price": 14,
-        "description": "Clase de tenis para principiantes",
-        "createdAt": "2017-12-16T20:36:03.554Z",
-        "updateAt": "2017-12-16T20:36:03.554Z"
-    }
-}
-```
-
-##### Response
-
-```json
-{
-    "version": "1.0.0",
-    "status": "success",
-    "message": "OK",
-    "datetime": "2017-12-16T18:21:41.752Z"
-}
-```
-
-##### Error
-
-```json
-{
-    "version": "1.0.0",
-    "status": "error",
-    "message": "Authentication error",
-    "datetime": "2017-12-16T20:36:03.554Z",
-    "error": "No se pudo crear la clase"
-}
-```
-

@@ -10,13 +10,13 @@ const SportSchema = mongoose.Schema({
     index: true,
     unique: true
   },
-  catefory: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
-    required: [true, 'CATEGORY_REQUIRED'],
-    index: true
+  category: {
+    type: String,
+    //ref: 'Category',
+    //required: [false, 'CATEGORY_REQUIRED'],
+    //index: true
   },
-}, { collection: 'category', timestamps: true }); // si no se indica collections tomara el nombre
+}, { collection: 'sport', timestamps: true }); // si no se indica collections tomara el nombre
                                                     // del model en minuscula y 
 
 //#region Static Methods
@@ -25,6 +25,6 @@ const SportSchema = mongoose.Schema({
 //#region Hooks
 //#endregion
 
-const Sport = mongoose.model('Category', SportSchema);
+const Sport = mongoose.model('Sports', SportSchema);
 
 module.exports = Sport;

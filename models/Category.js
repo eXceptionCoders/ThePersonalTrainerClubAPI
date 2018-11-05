@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const CategotySchema = mongoose.Schema({
+const CategorySchema = mongoose.Schema({
   type: { type: String, default: 'category' },
   name: { 
     type: String, 
@@ -18,6 +18,6 @@ const CategotySchema = mongoose.Schema({
 
 //#region Hooks
 //#endregion
-const Category = mongoose.model('Category', CategotySchema);
+const Category = mongoose.model('Category', CategorySchema);
 
 module.exports = Category;

@@ -18,7 +18,7 @@ const UserSchema = mongoose.Schema({
     trim: true, 
     index: true
   },
-  lastName: {
+  lastname: {
     type: String, 
     required: [true, 'LASTNAME_REQUIRED'], 
     minLength: [3, 'LASTNAME_TOO_SHORT'], 
@@ -119,7 +119,7 @@ UserSchema.post('save', function(error, doc, next) {
     next( error );
   } else {
     console.log('Datos validos')
-    //next(error);
+    next(error);
   }
 });
 
