@@ -12,11 +12,9 @@ const User = require('../../../models/User');
  * Sign up.
  */ 
 router.post('/signup', (req, res, next) => {
-  const user = new User(req.body);
-  console.log (req.body)
-  user.save((err, userSaved ) => {
+  const newUser = new User(req.body);
+  newUser.save((err, userSaved ) => {
     if (err) {
-      console.log ('error')
       next(err);
       return;
     }

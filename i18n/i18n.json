@@ -49,7 +49,8 @@
       "DISCOUNT_GTE_0": "The discount must be greater or equal to 0",
       "DISCOUNT_LTE_100": "The discount must be lesser or equal to 100",
       "COMMENT_REQUIRED": "Comment is required",
-      "COMMENT_TOO_LONG": "Comment too long"
+      "COMMENT_TOO_LONG": "Comment too long",
+      "DATA_SPORT_NOT_VALID": "Incorrect data list sports"
     }
   },
   "es": {
@@ -102,7 +103,8 @@
       "DISCOUNT_GTE_0": "El descuento debe ser mayor o igual a 0",
       "DISCOUNT_LTE_100": "El descuento debe ser menor o igual a 100",
       "COMMENT_REQUIRED": "No comentario no puede estar vacio",
-      "COMMENT_TOO_LONG": "El texto del comentario es demasiado largo"
+      "COMMENT_TOO_LONG": "El texto del comentario es demasiado largo",
+      "DATA_SPORT_NOT_VALID": "La lista de datos de deportes esta incorrecta"
     }
   }
 }

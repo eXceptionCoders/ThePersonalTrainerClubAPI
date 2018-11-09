@@ -26,7 +26,10 @@ const UserSchema = mongoose.Schema({
     trim: true, 
     index: true 
   },
-  thumbnail: { type: String },
+  thumbnail: { 
+    type: String,
+    maxLength: [255],
+  },
   email: { 
     type: String,
     required: [true, 'EMAIL_REQUIRED'], 
@@ -45,8 +48,7 @@ const UserSchema = mongoose.Schema({
     required: [true, 'PASSWORD_REQUIRED']
   },
   description: { 
-    type: String, 
-    required: [false, 'DESCRIPTION_REQUIRED'], 
+    type: String,
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
   },
   /*locations: [{
@@ -55,8 +57,11 @@ const UserSchema = mongoose.Schema({
     coordinates: []
   }],*/
   sports: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Sport'
+    type: String,
+    //validator: function(v) {
+    //  return validator.isIn(v, ["tenis", "futbol"]);
+    //},
+    //message: 'DATA_SPORT_NOT_VALID' 
   }],
   classes: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -77,6 +82,13 @@ const UserSchema = mongoose.Schema({
 UserSchema.statics.comparePassword = async (password, hash) => {
   return await bcrypt.compare(password, hash);
 };
+
+UserSchema.statics.list = function(filter) {
+  const query = User.find()
+
+  if (filter.sports) {query.where('sports', filter.sports)}
+}
+
 
 //#endregion
 

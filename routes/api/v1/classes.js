@@ -2,14 +2,41 @@
 
 const express = require('express');
 const router = express.Router();
-
+const jwt = require('../../../lib/jwtAuth');
 const { check, query, validationResult } = require('express-validator/check');
 
-const jwtAuth = require('../../../lib/jwtAuth');
-const Class = require('../../../models/Class');
+const Classes = require('../../../models/Classes');
+const User = require('../../../models/User');
 
-// Protected routes
-router.use(jwtAuth());
+router.post('/add', jwt(), (req, res, next) => {
+  const newClass = new Classes(req.body)
+  newClass.instructor = req.userId
+  newClass.save((err, classSaved ) => {
+    if (err) {
+      next(err);
+      return;
+    } else {
+      User.findOneAndUpdate(
+        {"_id": req.userId}, {$push: {classes: newClass._id}}).exec(function (err, resp) {
+        if (err || !resp) {
+          next(err);
+          return (err);
+        }
+        res.ptcDataResponse();
+      })
+    }
+  });
+})
+
+
+router.get('/find', jwt(), async (req, res, next) => {
+  try {
+    res.ptcDataResponse();
+  } catch (err) {
+    err = new Error('');
+    return next(err);
+  }
+})
 
 /**
  * GET /
@@ -22,6 +49,7 @@ router.use(jwtAuth());
  *  - name: Optional.
  *  - per_page: Optional. Musts be 1 or greater.
  */
+/*
 router.get('/', [
   query('for_sale').optional().isBoolean().withMessage('FOR_SALE_MUST_BE_BOOLEAN'),
   query('price').optional().matches(/^(\d+(\.\d+)?|-\d+(\.\d+)?|\d+(\.\d+)?-|\d+(\.\d+)?-\d+(\.\d+)?)$/).withMessage('PRICE_RANGE_NOT_VALID'),
@@ -52,5 +80,7 @@ router.get('/', [
       next(err);
   }
 });
+*/
+
 
 module.exports = router;

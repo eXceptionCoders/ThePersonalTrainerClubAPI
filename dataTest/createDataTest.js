@@ -13,13 +13,12 @@ function insert(element){
     if (err) {
       console.log('Error al crear elementos');
     } else {
-      //console.log('Elemento creado');
+      console.log('Elemento creado');
     }
   })
 }
 
 function createDataUser() {
-  conn.dropCollection('users')
   dataTest.users.forEach(element => {
     var newUser = new User(element)
     insert(newUser)
@@ -36,7 +35,6 @@ function createDataCancelation() {
 }
 
 function createDataSport() {
-  conn.dropCollection('sport')
   dataTest.sport.forEach(element => {
     Category.findOne({"name": element.category}, function(err, idCategory){
       var newSport = new Sport(element)
@@ -48,8 +46,6 @@ function createDataSport() {
 }
 
 function createDataCategoty() {
-  conn.dropCollection('category')
- 
   dataTest.category.forEach(element => {
     const newCategory = new Category(element)
     insert(newCategory)
@@ -57,8 +53,18 @@ function createDataCategoty() {
   createDataSport()
 }
 
-function createData() {
+function deleteAllCategory() {
+  conn.dropCollection('cancelation')
+  conn.dropCollection('category')
+  conn.dropCollection('classes')
+  conn.dropCollection('sport')
+  conn.dropCollection('users');
   createDataCategoty()
+}
+
+function createData() {
+  deleteAllCategory()
+
 }
 
 module.exports = createData;

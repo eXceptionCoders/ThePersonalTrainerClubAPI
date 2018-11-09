@@ -10,17 +10,18 @@ const User = require('../../../models/User');
 router.use(jwt());
 
 router.use('/',(req, res, next) => {
-  console.log(req.userId)
   User.findOne({"_id": req.userId}, function(err, findUser){
     if (err) {
       next(err);
       return;
     }
-    res.json({
+    res.ptcDataResponse({
+      "coach": findUser.coach,
       "name": findUser.name,
       "lastname": findUser.lastname,
-      "coach": findUser.coach,
-      "thumbnail": findUser.thumbnail
+      "thumbnail": findUser.thumbnail,
+      "sport": [],
+      "classes": []
     })
   })
 })

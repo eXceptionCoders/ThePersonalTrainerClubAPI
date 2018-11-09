@@ -176,12 +176,13 @@ En caso de error se añade el campo **error**.
 ##### Body
 ```json
 {
+    "coach": true,
     "name": "Carlos",
     "lastname": "Sanchez",
     "email": "carlos@test.com",
     "password": "1234",
     "thumbnail": "https//...",
-    "coach": true
+    "description": "Entrenador titulado de fitness"
 }
 ```
 ##### Response
@@ -270,10 +271,9 @@ En caso de error se añade el campo **error**.
     "message": "OK",
     "datetime": "2017-12-16T20:22:06.386Z",
     "data": {
-        "type": "user",
         "coach": true,
         "name": "Carlos",
-        "lastName": "Sanchez",
+        "lastname": "Sanchez",
         "thumbnail": "https://...",
         "sports": [],
         "classes": [],
@@ -340,3 +340,4 @@ En caso de error se añade el campo **error**.
     "error": "No se pudo actualizar la lista"
 }
 ```
+

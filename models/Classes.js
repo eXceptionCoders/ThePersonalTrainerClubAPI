@@ -3,29 +3,33 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const DURATION = [30,45,60,90,120]
-const FREQUENCY = ['unique', 'diary', 'weekly', 'monthly'];
+const DURATION = '30 45 60 90 120'.split(' ')
+const FREQUENCY = 'unique diary weekly monthly'.split();
 
 const ClassesSchema = mongoose.Schema({
   type: { type: String, default: 'classes' },
   instructor: { 
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   sport: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Sports',
-    required: true
+    required: true,
+    index: true
   },
   duration: {
-    type: number,
-    enum: {values: DURATION, message: 'UNKNOWN_DURATION'}
-  },
-  price: { 
     type: Number,
-    min: [0, 'PRICE_GT_0'],
-    max: [50, 'PRICE_LTE_50']
+    enum: [DURATION, 'UNKNOWN_DURATION'],
+    required: true
+  },
+  price: {
+    type: Number,
+    min: [0, 'PRICE_GTE_0'],
+    max: [50, 'PRICE_LTE_50'],
+    required: true,
+    index: true
   },
   description: { 
     type: String, 
@@ -58,10 +62,10 @@ const ClassesSchema = mongoose.Schema({
 //#region Indexes
 
 // Full text search index
-ClassSchema.index({ name: 'text', description: 'text' });
+//ClassSchema.index({ name: 'text', description: 'text' });
 
 // spatial index
-ClassSchema.index({ location: "2dsphere" });
+//ClassSchema.index({ location: "2dsphere" });
 
 //#endregion
 
@@ -79,6 +83,7 @@ ClassSchema.index({ location: "2dsphere" });
  * @param sort
  * @param fields
  */
+/*
 ClassSchema.statics.list = async (filters, page, per_page, sort, fields) => {
   // Remove undefine filters
   for (let key in filters) {
@@ -152,7 +157,7 @@ ClassSchema.pre('save', function(next) {
 });
 
 //#endregion
-
+*/
 const Classes = mongoose.model('Class', ClassesSchema);
 
 module.exports = Classes;
