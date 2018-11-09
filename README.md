@@ -127,7 +127,7 @@ En caso de error se añade el campo **error**.
 {
     "type": "sport",
     "name": "",
-    "category": _idCategoty
+    "category": "_idCategoty"
 }
 ```
 
@@ -138,8 +138,8 @@ En caso de error se añade el campo **error**.
     "type": "cancelation",
     "active": "Boolean",
     "description": "",
-    "hoursForCancelation": Number,
-    "discount": Number
+    "hoursForCancelation": "Number",
+    "discount": "Number"
 }
 ```
 
@@ -147,10 +147,10 @@ En caso de error se añade el campo **error**.
 ```json
 {
     "type": "classes",
-    "instructor": _idUser,
-    "sport": _idSport,
-    "duration": Number,
-    "price": Number,
+    "instructor": "_idUser",
+    "sport": "_idSport",
+    "duration": "Number",
+    "price": "Number",
     "description": ""
 }
 ```
@@ -158,9 +158,9 @@ En caso de error se añade el campo **error**.
 ```json
 {
     "type": "booking",
-    "active": Boolean,
-    "classReference": _idClass,
-    "registered": Number,
+    "active": "Boolean",
+    "classReference": "_idClass",
+    "registered": "Number",
     "listUsers": [],
 }
 ```
@@ -297,7 +297,7 @@ En caso de error se añade el campo **error**.
 
 | URI                         | METHOD | BODY                       | HEADERS|
 | --------------------------- | ------ | -------------------------- |--------|
-| `/api/v1/:lang/changesport` | `POST` | `{ listSport}`     |`{ x-access-token }`|
+| `/api/v1/:lang/changesport` | `POST` | `{ listsport}`     |`{ x-access-token }`|
 
 ### Example
 
@@ -340,4 +340,53 @@ En caso de error se añade el campo **error**.
     "error": "No se pudo actualizar la lista"
 }
 ```
+## Crear una clase
 
+| URI                         | METHOD | BODY                       | HEADERS|
+| --------------------------- | ------ | -------------------------- |--------|
+| `/api/v1/:lang/classes/add` | `POST` | `{ sport, duration, price, description}`     |`{ x-access-token }`|
+
+### Example
+
+`http://localhost:3000/api/v1/es/classes/add`
+
+##### Body
+
+```json
+{
+    "sport": "tenis",
+    "duration": 30,
+    "price": 20,
+    "desription": "Clase de tecniac basica"
+}
+```
+##### Headers
+
+```json
+{
+    "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWEzNTdlMzQzZmIxN2JmM2Q4NDBmYjlkIiwiaWF0IjoxNTEzNDU1NzI2LCJleHAiOjE1MTM2Mjg1MjZ9.G40iThNnq63TkZkOwG8M14yjTUow7U4ys52hRuS2VE4",
+}
+```
+
+##### Response
+
+```json
+{
+    "version": "1.0.0",
+    "status": "success",
+    "message": "OK",
+    "datetime": "2017-12-16T18:21:41.752Z"
+}
+```
+
+##### Error
+
+```json
+{
+    "version": "1.0.0",
+    "status": "error",
+    "message": "Authentication error",
+    "datetime": "2017-12-16T20:36:03.554Z",
+    "error": "No se pudo crear la clase"
+}
+```

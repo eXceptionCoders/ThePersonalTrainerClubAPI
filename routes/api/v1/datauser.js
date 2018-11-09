@@ -9,7 +9,7 @@ const User = require('../../../models/User');
 
 router.use(jwt());
 
-router.use('/',(req, res, next) => {
+router.use('/', (req, res, next) => {
   User.findOne({"_id": req.userId}, function(err, findUser){
     if (err) {
       next(err);
@@ -20,8 +20,8 @@ router.use('/',(req, res, next) => {
       "name": findUser.name,
       "lastname": findUser.lastname,
       "thumbnail": findUser.thumbnail,
-      "sport": [],
-      "classes": []
+      "sport": findUser.sports,
+      "classes": findUser.classes
     })
   })
 })
