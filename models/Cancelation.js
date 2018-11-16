@@ -16,18 +16,15 @@ const CancelationSchema = mongoose.Schema({
   hoursForCancelation: {
     type: Number,
     require: true,
-    default: 0,
     min: [0, 'HOURS_GTE_0'],
   },
-  discount: {
+  repurse: {
     type: Number,
     require: true,
-    default: 0,
     min: [0, 'DISCOUNT_GTE_0'],
     max: [100, 'DISCOUNT_LTE_100'],
   }
-}, { collection: 'cancelation', timestamps: true }); // si no se indica collections tomara el nombre
-                                                    // del model en minuscula y 
+}, { collection: 'cancelation', timestamps: true }); 
 
 //#region Static Methods
 //#endregion

@@ -1,7 +1,6 @@
 {
   "en": {
     "errors": {
-      "TYPE_USER_REQUIRED": "Type of user required",
       "NAME_REQUIRED": "Name required",
       "NAME_TOO_SHORT": "Name too short",
       "NAME_TOO_LONG": "Name too long",
@@ -55,7 +54,6 @@
   },
   "es": {
     "errors": {
-      "TYPE_USER_REQUIRED": "El tipo de usuario es obligatorio",
       "NAME_REQUIRED": "El nombre es obligatorio",
       "NAME_TOO_SHORT": "El nombre es demasiado corto",
       "NAME_TOO_LONG": "El nombre es demasiado largo",

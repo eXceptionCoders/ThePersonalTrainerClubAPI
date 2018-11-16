@@ -7,11 +7,10 @@ const CategorySchema = mongoose.Schema({
   name: { 
     type: String, 
     required: [true, 'NAME_REQUIRED'], 
+    unique: true,
     index: true,
-    unique: true
   },
-}, { collection: 'category', timestamps: true }); // si no se indica collections tomara el nombre
-                                                    // del model en minuscula y pluralizado
+}, { collection: 'category', timestamps: true });
 
 //#region Static Methods
 //#endregion

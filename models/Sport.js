@@ -7,17 +7,14 @@ const SportSchema = mongoose.Schema({
   name: { 
     type: String, 
     required: [true, 'NAME_REQUIRED'], 
-    index: true,
     unique: true
   },
   category: {
-    type: String,
-    //ref: 'Category',
-    //required: [false, 'CATEGORY_REQUIRED'],
-    //index: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true
   },
-}, { collection: 'sport', timestamps: true }); // si no se indica collections tomara el nombre
-                                                    // del model en minuscula y 
+}, { collection: 'sport', timestamps: true });
 
 //#region Static Methods
 //#endregion

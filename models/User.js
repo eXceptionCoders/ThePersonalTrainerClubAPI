@@ -8,10 +8,10 @@ const UserSchema = mongoose.Schema({
   type: { type: String, default: 'user' },
   coach: {
     type: Boolean,
-    required: [true, 'TYPE_USER_REQUIRED']
+    default: false
   },
   name: { 
-    type: String, 
+    type: String,
     required: [true, 'NAME_REQUIRED'], 
     minLength: [3, 'NAME_TOO_SHORT'], 
     maxLength: [255, 'NAME_TOO_LONG'], 
@@ -40,8 +40,8 @@ const UserSchema = mongoose.Schema({
       message: 'EMAIL_NOT_VALID'
     },
     trim: true,
+    unique: true,
     index: true, 
-    unique: true 
   },
   password: {
     type: String,
@@ -49,7 +49,7 @@ const UserSchema = mongoose.Schema({
   },
   description: { 
     type: String,
-    maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
+    maxLength: [1024, 'DESCRIPTION_TOO_LONG'] 
   },
   /*locations: [{
     type: { type: String, default: 'Point' },
@@ -57,19 +57,10 @@ const UserSchema = mongoose.Schema({
     coordinates: []
   }],*/
   sports: [{
-    type: String,
-    //validator: function(v) {
-    //  return validator.isIn(v, ["tenis", "futbol"]);
-    //},
-    //message: 'DATA_SPORT_NOT_VALID' 
-  }],
-  classes: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Class'
+    ref: "Sport"
   }]
-  // reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
-}, { collection: 'users', timestamps: true }); // si no se indica collections tomara el nombre
-                                               // del model en minuscula y pluralizado
+}, { collection: 'users', timestamps: true });
 
 //#region Static Methods
 

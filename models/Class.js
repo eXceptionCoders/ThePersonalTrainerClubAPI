@@ -3,19 +3,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const DURATION = '30 45 60 90 120'.split(' ')
-const FREQUENCY = 'unique diary weekly monthly'.split();
+const DURATION = [30, 45, 60, 90, 120]
+//const FREQUENCY = 'unique diary weekly monthly'.split();
 
 const ClassesSchema = mongoose.Schema({
-  type: { type: String, default: 'classes' },
+  type: { type: String, default: 'class' },
   instructor: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   sport: {
-    type: String,
-    ref: 'Sports',
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Sport",
     required: true,
     index: true
   },
@@ -31,33 +31,17 @@ const ClassesSchema = mongoose.Schema({
     required: true,
     index: true
   },
+  registered: {
+    type: Number,
+    default: 0,
+    index: true
+  },
   description: { 
     type: String, 
     required: [false, 'DESCRIPTION_REQUIRED'], 
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
-  },
-  /*
-  forSale: { type: Boolean, default: true },
-  price: { type: Number, min: [1, 'PRICE_GTE_0'] },
-  photo: { type: String },
-  startDate: { type: Date, required: [true, 'STARTDATE_REQUIRED'] },
-  endDate: { type: Date },
-  time: { 
-    hour: { type: Number, required: [true, 'HOUR_REQUIRED'], min: [0, 'HOUR_GTE_0'], max: [23, 'HOUR_LTE_23'] },
-    minute: { type: Number, required: [true, 'MINUTE_REQUIRED'], min: [0, 'MINUTE_GTE_0'], max: [59, 'MINUTE_LTE_59'] }
-  },
-  duration: { type: Number, min: [0.5, 'DURATION_GTE_0'] },
-  frecuency: {type: String, enum: { values: FREQUENCY, message: 'UNKNOWN_FREQUENCY'} },
-  quota: { type: Number, required: [true, 'QUOTA_REQUIRED'], default: 10 },
-  location: {
-    type: { type: String, default: 'Point' },
-    description: { type: String },
-    coordinates: []
-  },
-  activities: [{ type: Schema.Types.ObjectId, ref: 'Activity' }]
-  */
-}, { collection: 'classes', timestamps: true }); // si no se indica collections tomara el nombre
-                                                 // del model en minuscula y pluralizado
+  }
+}, { collection: 'classes', timestamps: true })
 
 //#region Indexes
 
