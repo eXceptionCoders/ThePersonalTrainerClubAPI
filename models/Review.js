@@ -4,8 +4,15 @@ const mongoose = require('mongoose');
 
 const ReviewSchema = mongoose.Schema({
   type: { type: String, default: 'review' },
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
-  createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  created: { 
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  for: { 
+    type: Schema.Types.ObjectId,
+    required: true
+  },
   stars: { 
     type: Number, 
     required: [true, 'STARS_REQUIRED'],
@@ -15,10 +22,9 @@ const ReviewSchema = mongoose.Schema({
   comment: { 
     type: String, 
     required: [true, 'COMMENT_REQUIRED'], 
-    maxLength: [2048, 'COMMENT_TOO_LONG'] 
+    maxLength: [1024, 'COMMENT_TOO_LONG'] 
   },
-}, { collection: 'reviews', timestamps: true }); // si no se indica collections tomara el nombre
-                                                 // del model en minuscula y pluralizado
+}, { collection: 'reviews', timestamps: true });
                                                  
 //#region Static Methods
 //#endregion

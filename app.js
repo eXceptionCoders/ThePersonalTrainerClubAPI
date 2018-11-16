@@ -31,15 +31,6 @@ const app = express();
 // DB connector
 require('./lib/mongooseConnection');
 
-// start data in darabase
-if (process.env.INITDB == 'true') {
-  const newDataBase = require('./dataTest/createDataTest')
-  newDataBase()
-  //.catch(err => {
-  //  console.log('Error al crear la base de datos')
-  //})
-}
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

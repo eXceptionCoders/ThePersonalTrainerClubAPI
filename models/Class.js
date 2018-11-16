@@ -1,12 +1,11 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const DURATION = [30, 45, 60, 90, 120]
 //const FREQUENCY = 'unique diary weekly monthly'.split();
 
-const ClassesSchema = mongoose.Schema({
+const ClassSchema = mongoose.Schema({
   type: { type: String, default: 'class' },
   instructor: { 
     type: mongoose.Schema.Types.ObjectId,
@@ -142,6 +141,6 @@ ClassSchema.pre('save', function(next) {
 
 //#endregion
 */
-const Classes = mongoose.model('Class', ClassesSchema);
+const Class = mongoose.model('Class', ClassSchema);
 
-module.exports = Classes;
+module.exports = Class;

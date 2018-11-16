@@ -5,11 +5,11 @@ const router = express.Router();
 const jwt = require('../../../lib/jwtAuth');
 const { check, query, validationResult } = require('express-validator/check');
 
-const Classes = require('../../../models/Classes');
+const Class = require('../../../models/Class');
 const User = require('../../../models/User');
 
 router.post('/add', jwt(), (req, res, next) => {
-  const newClass = new Classes(req.body)
+  const newClass = new Class(req.body)
   newClass.instructor = req.userId
   newClass.save((err, classSaved ) => {
     if (err) {
@@ -17,7 +17,7 @@ router.post('/add', jwt(), (req, res, next) => {
       return;
     } else {
       User.findOneAndUpdate(
-        {"_id": req.userId}, {$push: {classes: newClass._id}}).exec(function (err, resp) {
+        {"_id": req.userId}, {$push: {class: newClass._id}}).exec(function (err, resp) {
         if (err || !resp) {
           next(err);
           return (err);
