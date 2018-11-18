@@ -1,18 +1,22 @@
-## Seleccion de deportes
+
+## Crear una clase
 
 | URI                         | METHOD | BODY                       | HEADERS|
 | --------------------------- | ------ | -------------------------- |--------|
-| `/api/v1/:lang/changesport` | `POST` | `{ listsport}`     |`{ x-access-token }`|
+| `/api/v1/:lang/classes/add` | `POST` | `{ sport, duration, price, description}`     |`{ x-access-token }`|
 
 ### Example
 
-`http://localhost:3000/api/v1/es/changesport/`
+`http://localhost:3000/api/v1/es/classes/add`
 
 ##### Body
 
 ```json
 {
-    "listsport": ["tenis", "baloncesto"],
+    "sport": "tenis",
+    "duration": 30,
+    "price": 20,
+    "desription": "Clase de tecnica basica"
 }
 ```
 ##### Headers
@@ -42,6 +46,6 @@
     "status": "error",
     "message": "Authentication error",
     "datetime": "2017-12-16T20:36:03.554Z",
-    "error": "No se pudo actualizar la lista"
+    "error": "No se pudo crear la clase"
 }
 ```

@@ -23,8 +23,7 @@ const ErrorResponse = require('./schema/ErrorResponse');
 const index = require('./routes/index');
 const users = require('./routes/api/v1/users');
 const datauser = require('./routes/api/v1/datauser');
-const classes = require('./routes/api/v1/classes');
-const update = require('./routes/api/v1/update');
+const classes = require('./routes/api/v1/class');
 
 const app = express();
 
@@ -67,9 +66,8 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
-app.use('/api/v1/:lang(en|es)/datauser', language, datauser);
-app.use('/api/v1/:lang(en|es)/classes/', language, classes);
-app.use('/api/v1/:lang(en|es)/update', language, update);
+app.use('/api/v1/:lang(en|es)/data', language, datauser);
+app.use('/api/v1/:lang(en|es)/class', language, classes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

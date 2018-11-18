@@ -74,13 +74,6 @@ UserSchema.statics.comparePassword = async (password, hash) => {
   return await bcrypt.compare(password, hash);
 };
 
-UserSchema.statics.list = function(filter) {
-  const query = User.find()
-
-  if (filter.sports) {query.where('sports', filter.sports)}
-}
-
-
 //#endregion
 
 //#region Hooks

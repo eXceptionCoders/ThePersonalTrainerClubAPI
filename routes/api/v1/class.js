@@ -1,42 +1,60 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
-const jwt = require('../../../lib/jwtAuth');
-const { check, query, validationResult } = require('express-validator/check');
+const express = require('express')
+  ,router = express.Router()
+  ,mongoose = require('mongoose')
+  ,jwt = require('../../../lib/jwtAuth')
 
-const Class = require('../../../models/Class');
-const User = require('../../../models/User');
+const { check, query, validationResult } = require('express-validator/check')
+const Class = require('../../../models/Class')
+const Sport = require('../../../models/Sport')
 
 router.post('/add', jwt(), (req, res, next) => {
-  const newClass = new Class(req.body)
-  newClass.instructor = req.userId
-  newClass.save((err, classSaved ) => {
-    if (err) {
-      next(err);
-      return;
-    } else {
-      User.findOneAndUpdate(
-        {"_id": req.userId}, {$push: {class: newClass._id}}).exec(function (err, resp) {
-        if (err || !resp) {
-          next(err);
-          return (err);
+  const data = req.body
+  const sport = {name: req.body.sport}
+  Sport.findOne(sport, function (errSport, dataSport) {
+    if (!errSport && dataSport != null) {
+      data.sport = new mongoose.Types.ObjectId(dataSport._id)
+      data.instructor = new mongoose.Types.ObjectId(req.userId)
+      const newClass = new Class(data)
+      newClass.save((err, classSaved ) => {
+        if (err) {
+          return next(err);
         }
-        res.ptcDataResponse();
-      })
+        res.ptcResponse();
+      });
+    } else {
+      const err = new Error('INCORRECT_DATA_SPORTS');
+      err.status = 401;
+      return next(err);
     }
-  });
+  })
 })
 
 
-router.get('/find', jwt(), async (req, res, next) => {
+
+router.get('/find', jwt(), 
+   [query('price').optional().withMessage('PRICE_RANGE_NOT_VALID')
+  ], async (req, res, next) => {
   try {
-    res.ptcDataResponse();
+    console.log (req)
+    validationResult(req).throw();
+
+    const page = parseInt( req.query.page );
+    const per_page = parseInt( req.query.per_page );
+    
+    const sort = req.query.sort;
+    const fields = req.query.fields;
+
+    const result = await Class.list(filter, page, per_page, sort, fields);
+
+    res.ptcPaginatedResponse( result.rows, result.total );
   } catch (err) {
     err = new Error('');
     return next(err);
   }
 })
+
 
 /**
  * GET /
@@ -81,6 +99,4 @@ router.get('/', [
   }
 });
 */
-
-
-module.exports = router;
+module.exports = router

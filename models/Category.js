@@ -8,9 +8,8 @@ const CategorySchema = mongoose.Schema({
     type: String, 
     required: [true, 'NAME_REQUIRED'], 
     unique: true,
-    index: true,
   },
-}, { collection: 'category', timestamps: true });
+}, { collection: 'categories', timestamps: true });
 
 //#region Static Methods
 //#endregion

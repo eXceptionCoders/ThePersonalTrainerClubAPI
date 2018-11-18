@@ -28,8 +28,15 @@
         "coach": true,
         "name": "Carlos",
         "lastname": "Sanchez",
-        "thumbnail": "https://...",
-        "sports": []
+        "thumbnail": "https://randomuser.me/api/portraits/med/men/3.jpg",
+        "sport": [
+            {
+                "type": "sport",
+                "_id": "5bef2db30ae5006f4c51d455",
+                "name": "tenis",
+                "category": "5bef2db10ae5006f4c51d440",
+              "__v": 0
+            }
     }
 }
 ```

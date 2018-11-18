@@ -7,10 +7,6 @@ const { check, body, validationResult } = require('express-validator/check');
 
 const User = require('../../../models/User');
 
-/**
- * POST /signup
- * Sign up.
- */ 
 router.post('/signup', (req, res, next) => {
   const newUser = new User(req.body);
   newUser.save((err, userSaved ) => {
@@ -21,11 +17,7 @@ router.post('/signup', (req, res, next) => {
     res.ptcResponse();
   });
 });
-
-/**
- * POST /signup
- * Log in.
- */ 
+ 
 router.post('/login', [
   body('email').isEmail().withMessage('EMAIL_NOT_VALID')
 ], async (req, res, next) => {
@@ -63,5 +55,7 @@ router.post('/login', [
     next(err);
   }
 });
+
+
 
 module.exports = router;
