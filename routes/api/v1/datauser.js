@@ -13,24 +13,24 @@ router.get('/user', jwt(), (req, res, next) => {
   User.findById(req.userId)
     .populate('sports', 'name')
     .exec(function(err, findUser){
-    if (err) {
-      // Tenemos que definir este error por que en principio
-      // no se puede producir
-      return next(err);
-    }
-    res.ptcDataResponse({
-      "_id": fndUser._id,
-      "coach": findUser.coach,
-      "name": findUser.name,
-      "lastname": fndUser.lastname,
-      "email": findUser.email,
-      "gender": findUser.gender,
-      "thumbnail": findUser.thumbnail,
-      "sports": findUser.sports,
-      "locations": findUser.locations
-    })
-  })
-})
+      if (err) {
+        // Tenemos que definir este error por que en principio
+        // no se puede producir
+        return next(err);
+      }
+      res.ptcDataResponse({
+        "_id": findUser._id,
+        "coach": findUser.coach,
+        "name": findUser.name,
+        "lastname": findUser.lastname,
+        "email": findUser.email,
+        "gender": findUser.gender,
+        "thumbnail": findUser.thumbnail,
+        "sports": findUser.sports,
+        "locations": findUser.locations
+      });
+    });
+});
 
 router.post('/sport', jwt(), (req, res, next) => {
   const arraySport = req.body.listsport.split(',')
@@ -52,6 +52,6 @@ router.post('/sport', jwt(), (req, res, next) => {
       return next(err);
     }
   })
-})
+});
 
 module.exports = router
