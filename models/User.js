@@ -3,44 +3,33 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
-const Schema = mongoose.Schema;
 
 const UserSchema = mongoose.Schema({
   type: { type: String, default: 'user' },
+  coach: {
+    type: Boolean,
+    default: false
+  },
   name: { 
-    type: String, 
+    type: String,
     required: [true, 'NAME_REQUIRED'], 
     minLength: [3, 'NAME_TOO_SHORT'], 
     maxLength: [255, 'NAME_TOO_LONG'], 
-    trim: true, 
-    index: true 
+    trim: true,
+    index: true
   },
-  lastName: {
+  lastname: {
     type: String, 
     required: [true, 'LASTNAME_REQUIRED'], 
     minLength: [3, 'LASTNAME_TOO_SHORT'], 
     maxLength: [255, 'LASTNAME_TOO_LONG'], 
-    trim: true, 
+    trim: true,
     index: true 
   },
-  birthday: {
-    type: Date,
-    required: [true, 'BIRTHDAY_REQUIRED'], 
-    validate: {
-      validator: function(v) {
-        var date = new Date();
-        date.setFullYear( date.getFullYear() - 16 );
-        return v instanceof Date ? v <= date : validator.isAfter(v, date);
-      },
-      message: 'BIRTHDAY_NOT_VALID'
-    },
+  thumbnail: { 
+    type: String,
+    maxLength: [512],
   },
-  gender: { 
-    type: String, 
-    required: [true, 'GENDER_REQUIRED'], 
-    enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
-  },
-  thumbnail: { type: String },
   email: { 
     type: String,
     required: [true, 'EMAIL_REQUIRED'], 
@@ -51,29 +40,28 @@ const UserSchema = mongoose.Schema({
       message: 'EMAIL_NOT_VALID'
     },
     trim: true,
+    unique: true,
     index: true, 
-    unique: true 
   },
-  locations: [{
-    type: { type: String, default: 'Point' },
-    description: { type: String },
-    coordinates: []
+  password: {
+    type: String,
+    required: [true, 'PASSWORD_REQUIRED']
+  },
+  description: { 
+    type: String,
+    maxLength: [1024, 'DESCRIPTION_TOO_LONG'] 
+  },
+  sports: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Sport"
   }],
-  profiles: {
-    trainer: {
-      enabled: { type: Boolean, default: false },
-      description: { type: String, default: '' },  
-    },
-    athlete: {
-      description: { type: String, default: '' },
-    }
-  },
-  password: { type: String, required: [true, 'PASSWORD_REQUIRED'] },
-  description: { type: String },
-  // classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
-  // reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
-}, { collection: 'users', timestamps: true }); // si no se indica collections tomara el nombre
-                                               // del model en minuscula y pluralizado
+  locations: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location"
+  }]
+}, { collection: 'users', timestamps: true });
+
+UserSchema.index({'lastname': 'text'})
 
 //#region Static Methods
 
@@ -127,11 +115,10 @@ UserSchema.post('save', function(error, doc, next) {
     };
     next( error );
   } else {
+    console.log('Datos validos')
     next(error);
   }
 });
-
-//#endregion
 
 const User = mongoose.model('User', UserSchema);
 

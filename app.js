@@ -22,6 +22,8 @@ const ErrorResponse = require('./schema/ErrorResponse');
 // Routes
 const index = require('./routes/index');
 const users = require('./routes/api/v1/users');
+const datauser = require('./routes/api/v1/datauser');
+const classes = require('./routes/api/v1/class');
 
 const app = express();
 
@@ -43,7 +45,6 @@ app.use(bodyParser.json());
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // standardized responses for API
 app.use((req, res, next) => {
@@ -65,7 +66,10 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
-app.use('/api/v1/:lang(en|es)/classes', language, users);
+app.use('/api/v1/:lang(en|es)/data', language, datauser);
+app.use('/api/v1/:lang(en|es)/class', language, classes);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
