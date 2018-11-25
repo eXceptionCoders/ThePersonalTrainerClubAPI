@@ -5,16 +5,16 @@ const mongoose = require('mongoose');
 const BookingSchema = mongoose.Schema({
   type: {type: String, default: 'booking' },
   class: { 
-    type: Schema.Types.ObjectId,
+    type:  mongoose.Schema.Types.ObjectId,
     ref: 'Class',
     required: true
   },
   resgistered: {
-    type: number,
+    type: Number,
     default: 0
   },
   user: [{
-    type: Schema.Types.ObjectId,
+    type:  mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   }],

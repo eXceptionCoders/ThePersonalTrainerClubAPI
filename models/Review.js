@@ -5,12 +5,12 @@ const mongoose = require('mongoose');
 const ReviewSchema = mongoose.Schema({
   type: { type: String, default: 'review' },
   created: { 
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   for: { 
-    type: Schema.Types.ObjectId,
+    type:  mongoose.Schema.Types.ObjectId,
     required: true
   },
   stars: { 
