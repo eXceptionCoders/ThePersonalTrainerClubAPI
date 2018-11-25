@@ -11,7 +11,7 @@ const Sport = require('../../../models/Sport')
 
 router.get('/user', jwt(), (req, res, next) => {
   User.findById(req.userId)
-    .populate('sports')
+    .populate('sports', '_id name icon category')
     .exec(function(err, findUser){
       if (err) {
         // Tenemos que definir este error por que en principio
