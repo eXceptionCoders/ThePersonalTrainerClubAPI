@@ -35,11 +35,7 @@ const ClassSchema = mongoose.Schema({
     required: true,
     index: true
   },
-  registered: {
-    type: Number,
-    default: 0,
-    index: true
-  },
+  quota: { type: Number, required: [true, 'QUOTA_REQUIRED'], default: 10 },
   description: { 
     type: String,
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
