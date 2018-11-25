@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     required: [true, 'NAME_REQUIRED'], 
     minLength: [3, 'NAME_TOO_SHORT'], 
     maxLength: [255, 'NAME_TOO_LONG'], 
-    trim: true, 
+    trim: true,
     index: true
   },
   lastname: {
@@ -23,12 +23,12 @@ const UserSchema = mongoose.Schema({
     required: [true, 'LASTNAME_REQUIRED'], 
     minLength: [3, 'LASTNAME_TOO_SHORT'], 
     maxLength: [255, 'LASTNAME_TOO_LONG'], 
-    trim: true, 
+    trim: true,
     index: true 
   },
   thumbnail: { 
     type: String,
-    maxLength: [255],
+    maxLength: [512],
   },
   email: { 
     type: String,
@@ -51,16 +51,17 @@ const UserSchema = mongoose.Schema({
     type: String,
     maxLength: [1024, 'DESCRIPTION_TOO_LONG'] 
   },
-  /*locations: [{
-    type: { type: String, default: 'Point' },
-    description: { type: String },
-    coordinates: []
-  }],*/
   sports: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Sport"
+  }],
+  locations: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location"
   }]
 }, { collection: 'users', timestamps: true });
+
+UserSchema.index({'lastname': 'text'})
 
 //#region Static Methods
 
@@ -118,8 +119,6 @@ UserSchema.post('save', function(error, doc, next) {
     next(error);
   }
 });
-
-//#endregion
 
 const User = mongoose.model('User', UserSchema);
 

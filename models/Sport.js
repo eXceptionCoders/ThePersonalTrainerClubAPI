@@ -9,10 +9,14 @@ const SportSchema = mongoose.Schema({
     required: [true, 'NAME_REQUIRED'], 
     unique: true
   },
+  icon: {
+    type: String,
+    required: [true, 'ICON_REQUIRED']
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
-    required: true
+    required: [true, 'CATEGORY_REQUIRED']
   },
 }, { collection: 'sports', timestamps: true });
 

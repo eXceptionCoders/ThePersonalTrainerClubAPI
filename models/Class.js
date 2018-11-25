@@ -10,12 +10,18 @@ const ClassSchema = mongoose.Schema({
   instructor: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: [true, 'USER_CREATOR_REQUIRED']
   },
   sport: {
     type: mongoose.Schema.Types.ObjectId, 
     ref: "Sport",
-    required: true,
+    required: [true, 'SPORT_REQUIRED'],
+    index: true
+  },
+  location: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Location",
+    required: [true, 'LOCATION_REQUIRED'],
     index: true
   },
   duration: {
@@ -36,11 +42,22 @@ const ClassSchema = mongoose.Schema({
     index: true
   },
   description: { 
-    type: String, 
-    required: [false, 'DESCRIPTION_REQUIRED'], 
+    type: String,
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
   }
 }, { collection: 'classes', timestamps: true })
+
+ClassSchema.statics.list = function (filter) {
+  const query = Class.find({})
+
+  if(filter.price) { query.where('price').lte(filter.price)}
+  if(filter.duration) {query.where('duration', filter.duration)}
+  
+  return (query
+    .populate({path: 'instructor', select: ['name', 'lastname', 'thumbnail']})
+    .populate({path: 'sport', select: 'name'})
+    .exec())
+}
 
 //#region Indexes
 

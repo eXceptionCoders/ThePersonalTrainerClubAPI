@@ -28,6 +28,7 @@
 {
   "type": "sport",
   "name": "",
+  "icon": "",
   "category": "_idCategoty"
 }
 ```

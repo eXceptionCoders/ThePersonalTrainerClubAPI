@@ -8,6 +8,7 @@ const express = require('express')
 const { check, query, validationResult } = require('express-validator/check')
 const Class = require('../../../models/Class')
 const Sport = require('../../../models/Sport')
+const User = require('../../../models/User')
 
 router.post('/add', jwt(), (req, res, next) => {
   const data = req.body
@@ -33,22 +34,40 @@ router.post('/add', jwt(), (req, res, next) => {
 
 
 
-router.get('/find', jwt(), 
-   [query('price').optional().withMessage('PRICE_RANGE_NOT_VALID')
-  ], async (req, res, next) => {
+router.get('/find', jwt(),
+  [
+  query('price').optional().matches().withMessage('PRICE_RANGE_NOT_VALID'),
+  query('duration').optional().matches().withMessage('DURATION_RANGE_NOT_VALID')
+  ],
+  async (req, res, next) => {
   try {
-    console.log (req)
     validationResult(req).throw();
+    const filters = req.body
+    const classes = await Class.list(filters)
+    res.ptcPaginatedResponse(classes);
 
-    const page = parseInt( req.query.page );
-    const per_page = parseInt( req.query.per_page );
+    //const e = await User.find({$text: {$search: "Manuel Rodriguez Soriano"}}).exec(function(err, doc) {
+    //  console.log (doc, err)
+    //})
+  
+
+    //const e = await User.findUser(req.body.instructor)
+
     
-    const sort = req.query.sort;
-    const fields = req.query.fields;
+    //validationResult(req).throw();
 
-    const result = await Class.list(filter, page, per_page, sort, fields);
+    //const page = parseInt( req.query.page );
+    //const per_page = parseInt( req.query.per_page );
+    
+    //const sort = req.query.sort;
+    //const fields = req.query.fields;
+  
+    //const result = await Class.find();
+  
+    //const result = await Class.list(req.body)
 
-    res.ptcPaginatedResponse( result.rows, result.total );
+    //res.ptcPaginatedResponse( result.rows, result.total );
+    //res.ptcPaginatedResponse( e );
   } catch (err) {
     err = new Error('');
     return next(err);
