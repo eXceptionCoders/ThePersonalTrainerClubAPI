@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const LocationSchema = require('./Location');
 
 const DURATION = [30, 45, 60, 90, 120]
 //const FREQUENCY = 'unique diary weekly monthly'.split();
@@ -19,10 +20,8 @@ const ClassSchema = mongoose.Schema({
     index: true
   },
   location: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "Location",
+    type: LocationSchema,
     required: [true, 'LOCATION_REQUIRED'],
-    index: true
   },
   duration: {
     type: Number,

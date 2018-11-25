@@ -3,12 +3,7 @@
 const mongoose = require('mongoose');
 
 const LocationSchema = mongoose.Schema({
-  type: {type: String, default: 'location' },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, 'USER_CREATOR_REQUIRED']
-  },
+  type: { type: String, default: 'Point' },
   description: {
     type: String,
     required: [true, 'DESCRIPTION_REQUIRED']
@@ -17,7 +12,7 @@ const LocationSchema = mongoose.Schema({
     type: [Number],
     index: '2dsphere',
     required: [true, 'COORDINATES_REQUIRED']
-  }
+  },
 }, { collection: 'location', timestamps: true });
 
 //#region Static Methods
@@ -26,6 +21,6 @@ const LocationSchema = mongoose.Schema({
 //#region Hooks
 //#endregion
 
-const Location = mongoose.model('Location', LocationSchema);
+// const Location = mongoose.model('Location', LocationSchema);
 
-module.exports = Location;
+module.exports = LocationSchema;
