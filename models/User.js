@@ -32,6 +32,12 @@ const UserSchema = mongoose.Schema({
     type: String,
     maxLength: [512],
   },
+  gender: { 
+    type: String,
+    default: 'male', 
+    required: [true, 'GENDER_REQUIRED'], 
+    enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
+  },
   email: { 
     type: String,
     required: [true, 'EMAIL_REQUIRED'], 

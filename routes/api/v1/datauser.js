@@ -19,11 +19,15 @@ router.get('/user', jwt(), (req, res, next) => {
       return next(err);
     }
     res.ptcDataResponse({
+      "_id": fndUser._id,
       "coach": findUser.coach,
       "name": findUser.name,
-      "lastname": findUser.lastname,
+      "lastname": fndUser.lastname,
+      "email": findUser.email,
+      "gender": findUser.gender,
       "thumbnail": findUser.thumbnail,
-      "sport": findUser.sports
+      "sports": findUser.sports,
+      "locations": findUser.locations
     })
   })
 })
