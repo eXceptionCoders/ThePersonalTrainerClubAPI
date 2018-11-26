@@ -7,31 +7,16 @@ const express = require('express')
 
 const { check, query, validationResult } = require('express-validator/check')
 const Class = require('../../../models/Class')
-const Sport = require('../../../models/Sport')
-const User = require('../../../models/User')
 
 router.post('/add', jwt(), (req, res, next) => {
-  const data = req.body
-  const sport = {name: req.body.sport}
-  Sport.findOne(sport, function (errSport, dataSport) {
-    if (!errSport && dataSport != null) {
-      data.sport = new mongoose.Types.ObjectId(dataSport._id)
-      data.instructor = new mongoose.Types.ObjectId(req.userId)
-      const newClass = new Class(data)
-      newClass.save((err, classSaved ) => {
-        if (err) {
-          return next(err);
-        }
-        res.ptcResponse();
-      });
-    } else {
-      const err = new Error('INCORRECT_DATA_SPORTS');
-      err.status = 401;
+  const newClass = new Class(req.body)
+  newClass.save((err, classSaved ) => {
+    if (err) {
       return next(err);
     }
-  })
-})
-
+    res.ptcResponse();
+  });
+});
 
 
 router.get('/find', jwt(),
