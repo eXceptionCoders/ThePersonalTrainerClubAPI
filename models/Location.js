@@ -2,6 +2,16 @@
 
 const mongoose = require('mongoose');
 
+const geoSchema = mongoose.Schema({
+  type: {
+    type: String,
+    default: 'Point'
+  },
+  coordinates: {
+    type: [Number]
+  }
+});
+
 const LocationSchema = mongoose.Schema({
   type: {type: String, default: 'location' },
   user: {
@@ -11,20 +21,32 @@ const LocationSchema = mongoose.Schema({
   },
   description: {
     type: String,
+    minLegth: [3, 'DESCRIPTION_TOO_SHORT'],
+    maxLength: [1024, 'DESCRIPTION_TOO_LONG'],
     required: [true, 'DESCRIPTION_REQUIRED']
   },
-  coordinates: {
-    type: [Number],
-    index: '2dsphere',
+  location: {
+    type: geoSchema,
     required: [true, 'COORDINATES_REQUIRED']
   }
-}, { collection: 'location', timestamps: true });
+}, { collection: 'locations', timestamps: true });
+
+LocationSchema.index({description: 1, location: 1});
 
 //#region Static Methods
-//#endregion
 
-//#region Hooks
-//#endregion
+LocationSchema.static.list = function (longitude, latitude, distance) {
+  const query = Location.find({
+    location: {$nearSphere:
+      {$geometry:
+        {type: "Point"
+        ,coordinates: [longitude, latitude]}
+        ,$maxDistance: distance
+        }
+      }
+    })
+  return (query.exec())
+}
 
 const Location = mongoose.model('Location', LocationSchema);
 

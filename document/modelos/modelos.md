@@ -14,16 +14,13 @@
 }
 ```
 ### Categoty
-
 ```json
 {
   "type": "category",
   "name": "",
 }
 ```
-
 ### Sport
-
 ```json
 {
   "type": "sport",
@@ -32,9 +29,21 @@
   "category": "_idCategoty"
 }
 ```
-
+### Location
+```json
+{
+  "type": "location",
+  "user": "_id_user",
+  "description": "",
+  "location": {
+    "type" :{
+      "type" : "Point",
+      "coordenates" : "[Number]"
+    }
+  }
+}
+```
 ### Cancelation
-
 ```json
 {
   "type": "cancelation",
@@ -44,7 +53,6 @@
   "repurse": "Number"
 }
 ```
-
 ### Classes
 ```json
 {

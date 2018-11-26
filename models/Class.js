@@ -47,15 +47,19 @@ const ClassSchema = mongoose.Schema({
   }
 }, { collection: 'classes', timestamps: true })
 
-ClassSchema.statics.list = function (filter) {
+ClassSchema.statics.list = function (filters) {
   const query = Class.find({})
 
-  if(filter.price) { query.where('price').lte(filter.price)}
-  if(filter.duration) {query.where('duration', filter.duration)}
+  if (filters.sport) { query.where('sport', filters.sport)}
+  if (filters.price) { query.where('price').lte(filters.price)}
+  if (filters.duration) {query.where('duration', filters.duration)}
+  console.log (filters.idPlace)
+  if (filters.idPlace.length > 0) {query.where('location').in(filters.idPlace)}
   
   return (query
     .populate({path: 'instructor', select: ['name', 'lastname', 'thumbnail']})
     .populate({path: 'sport', select: 'name'})
+    .populate({path: 'location', select: ['description', 'location']})
     .exec())
 }
 
@@ -73,7 +77,7 @@ ClassSchema.statics.list = function (filter) {
 
 /**
  * Returns class list.
- * @param filters
+ * @param filterss
  *  - forSale: false | true
  *  - price: 0-50 | 10- | -50 | 50
  *  - name: Regex /^name/i
@@ -84,39 +88,39 @@ ClassSchema.statics.list = function (filter) {
  * @param fields
  */
 /*
-ClassSchema.statics.list = async (filters, page, per_page, sort, fields) => {
-  // Remove undefine filters
-  for (let key in filters) {
-    if (!filters[key]) {
-      delete filters[key];
+ClassSchema.statics.list = async (filterss, page, per_page, sort, fields) => {
+  // Remove undefine filterss
+  for (let key in filterss) {
+    if (!filterss[key]) {
+      delete filterss[key];
       continue;
     }
 
     switch (key) {
       case 'price':
-        const range = filters[key].split('-');
+        const range = filterss[key].split('-');
         if (range.length == 1) {
-          filters[key] = range[0];
+          filterss[key] = range[0];
         } else if (!range[0]) {
-          filters[key] = { $lte: range[1] };
+          filterss[key] = { $lte: range[1] };
         } else if (!range[1]) {
-          filters[key] = { $gte: range[0] };
+          filterss[key] = { $gte: range[0] };
         } else {
-          filters[key] = { $gte: range[0], $lte: range[1] };
+          filterss[key] = { $gte: range[0], $lte: range[1] };
         }
         break;
 
       case 'name':
-        filters[key] = new RegExp('^' + filters[key], 'i');
+        filterss[key] = new RegExp('^' + filterss[key], 'i');
         break;
 
       case 'location':
         // https://medium.com/@galford151/mongoose-geospatial-queries-with-near-59800b79c0f6
         // In our query, “$maxDistance” is the distance in meters from the longitude and latitude values
-        const coordinates = filters[key].split('-');
+        const coordinates = filterss[key].split('-');
         const long = coordinates[0];
         const latt = coordinates[1];
-        filters[key] = {
+        filterss[key] = {
           $near: {
             $maxDistance: 20000,
             $geometry: {
@@ -128,14 +132,14 @@ ClassSchema.statics.list = async (filters, page, per_page, sort, fields) => {
         break;
 
       //case 'tags':
-        //filters[key] = { $in: filters[key].split(',') };
-        //delete filters[key];
+        //filterss[key] = { $in: filterss[key].split(',') };
+        //delete filterss[key];
         //break;
     }
   }
 
-  const count = await Ad.find(filters).count();
-  const query = Ad.find(filters);
+  const count = await Ad.find(filterss).count();
+  const query = Ad.find(filterss);
 
   query.skip(page);
   query.limit(per_page);

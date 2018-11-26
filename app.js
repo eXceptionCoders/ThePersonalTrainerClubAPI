@@ -24,6 +24,7 @@ const index = require('./routes/index');
 const users = require('./routes/api/v1/users');
 const datauser = require('./routes/api/v1/datauser');
 const classes = require('./routes/api/v1/class');
+const location = require('./routes/api/v1/location')
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
 app.use('/api/v1/:lang(en|es)/data', language, datauser);
 app.use('/api/v1/:lang(en|es)/class', language, classes);
+app.use('/api/v1/:lang(en|es)/location', language, location);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

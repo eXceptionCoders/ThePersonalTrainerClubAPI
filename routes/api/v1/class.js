@@ -8,7 +8,7 @@ const express = require('express')
 const { check, query, validationResult } = require('express-validator/check')
 const Class = require('../../../models/Class')
 const Sport = require('../../../models/Sport')
-const User = require('../../../models/User')
+const Location = require('../../../models/Location')
 
 router.post('/add', jwt(), (req, res, next) => {
   const data = req.body
@@ -32,20 +32,47 @@ router.post('/add', jwt(), (req, res, next) => {
   })
 })
 
-
-
 router.get('/find', jwt(),
   [
+  // TODO realizar expresiones regulares para las validaciones en matches()
+  query('sport').optional().matches().withMessage('SPORT_NOT_VALID'),
   query('price').optional().matches().withMessage('PRICE_RANGE_NOT_VALID'),
-  query('duration').optional().matches().withMessage('DURATION_RANGE_NOT_VALID')
+  query('duration').optional().matches().withMessage('DURATION_RANGE_NOT_VALID'),
+  query('longitude').optional().matches().withMessage('LONGITUDE_NOT_VALID'),
+  query('latitude').optional().matches().withMessage('LATITUDE_NOT_VALID'),
+  query('distance').optional().matches().withMessage('DISTANCE_NOT_VALID'),
   ],
   async (req, res, next) => {
   try {
     validationResult(req).throw();
     const filters = req.body
+    //filters.idPlace = [] //['5bfbfc9e8a31150c2e44f82a']
+    //filters.idPlace = ['5bfbfc9e8a31150c2e44f828']
+    filters.idPlace = ['5bfbfc9e8a31150c2e44f82a', '5bfbfc9e8a31150c2e44f828']
+    if (filters.longitude && filters.latitude && filters.distance) {
+      await Location.find({
+        location: {$nearSphere:
+          {$geometry:
+            {type: "Point"
+            ,coordinates: [filters.longitude, filters.latitude]}
+            ,$maxDistance: filters.distance
+            }
+          }
+      })
+      .exec( function (errFindLocation, dataFindLocation) {
+        if (!errFindLocation) {
+          dataFindLocation.map((element, i) => {
+            filters.idPlace[i] = element._id
+          })
+        }
+      }) 
+    }
     const classes = await Class.list(filters)
-    res.ptcPaginatedResponse(classes);
-
+    res.ptcDataResponse(classes)  
+  } catch (err) {
+    return next(err);
+  }
+})
     //const e = await User.find({$text: {$search: "Manuel Rodriguez Soriano"}}).exec(function(err, doc) {
     //  console.log (doc, err)
     //})
@@ -68,11 +95,7 @@ router.get('/find', jwt(),
 
     //res.ptcPaginatedResponse( result.rows, result.total );
     //res.ptcPaginatedResponse( e );
-  } catch (err) {
-    err = new Error('');
-    return next(err);
-  }
-})
+
 
 
 /**

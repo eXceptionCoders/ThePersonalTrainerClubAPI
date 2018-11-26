@@ -2,11 +2,11 @@
 
 | URI                         | METHOD | HEADERS                |
 | --------------------------- | ------ | ------------------- |
-| `/api/v1/:lang/getuserdata` | `GET`  | `{ x-access-token }` |
+| `/api/v1/:lang/data/user` | `GET`  | `{ x-access-token }` |
 
 ### Example
 
-`http://localhost:3000/api/v1/es/datauser/`
+`http://localhost:3000/api/v1/es/data/user/`
 
 ##### Headers
 
@@ -36,7 +36,27 @@
                 "name": "tenis",
                 "category": "5bef2db10ae5006f4c51d440",
               "__v": 0
+            },
+        ],
+         "location": [
+            {
+                "type": "location",
+                "_id": "5bfc1a6440dbed0d99ed5755",
+                "description": "Manuel",
+                "location": {
+                    "type": "Point",
+                    "coordinates": [
+                        40.357182,
+                        -1.182673
+                    ],
+                    "_id": "5bfc1a6440dbed0d99ed5756"
+                },
+                "user": "5bfbfc958a31150c2e44f7fa",
+                "createdAt": "2018-11-26T16:08:04.481Z",
+                "updatedAt": "2018-11-26T16:08:04.481Z",
+                "__v": 0
             }
+        ]
     }
 }
 ```

@@ -8,24 +8,30 @@ const express = require('express')
 const { check, body, validationResult } = require('express-validator/check')
 const User = require('../../../models/User')
 const Sport = require('../../../models/Sport')
+const Location = require('../../../models/Location')
 
-router.get('/user', jwt(), (req, res, next) => {
-  User.findById(req.userId)
+router.get('/user', jwt()
+  , async (req, res, next) => {
+  try {
+    User.findById(req.userId)
     .populate('sports', 'name')
     .exec(function(err, findUser){
-    if (err) {
-      // Tenemos que definir este error por que en principio
-      // no se puede producir
-      return next(err);
-    }
-    res.ptcDataResponse({
-      "coach": findUser.coach,
-      "name": findUser.name,
-      "lastname": findUser.lastname,
-      "thumbnail": findUser.thumbnail,
-      "sport": findUser.sports
+      if (err) return next(err);
+      Location.find({'user': req.userId})
+      .exec(function (errLocation, dataLocation) {
+        if (errLocation) return next(err)
+        res.ptcDataResponse({
+          "coach": findUser.coach,
+          "name": findUser.name,
+          "lastname": findUser.lastname,
+          "thumbnail": findUser.thumbnail,
+          "sport": findUser.sports,
+          "location": dataLocation
+        })
+       })
     })
-  })
+  } catch (err) {
+  }
 })
 
 router.post('/sport', jwt(), (req, res, next) => {
