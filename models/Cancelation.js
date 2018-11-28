@@ -26,12 +26,6 @@ const CancelationSchema = mongoose.Schema({
   }
 }, { collection: 'cancelation', timestamps: true }); 
 
-//#region Static Methods
-//#endregion
-
-//#region Hooks
-//#endregion
-
 const Cancelation = mongoose.model('Cancelation', CancelationSchema);
 
 module.exports = Cancelation;

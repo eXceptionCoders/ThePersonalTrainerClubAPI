@@ -115,10 +115,16 @@ UserSchema.post('save', function(error, doc, next) {
     };
     next( error );
   } else {
-    console.log('Datos validos')
     next(error);
   }
 });
+
+UserSchema.methods.toJSON = function() {
+  var obj = this.toObject()
+  delete obj.password
+  delete obj.email
+  return obj
+ }
 
 const User = mongoose.model('User', UserSchema);
 

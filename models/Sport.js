@@ -20,12 +20,6 @@ const SportSchema = mongoose.Schema({
   },
 }, { collection: 'sports', timestamps: true });
 
-//#region Static Methods
-//#endregion
-
-//#region Hooks
-//#endregion
-
 const Sport = mongoose.model('Sport', SportSchema);
 
 module.exports = Sport;

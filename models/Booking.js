@@ -9,22 +9,16 @@ const BookingSchema = mongoose.Schema({
     ref: 'Class',
     required: true
   },
-  resgistered: {
-    type: number,
-    default: 0
-  },
   user: [{
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
   }],
+  resgistered: {
+    type: number,
+    default: 0
+  }
 }, { collection: 'bookings', timestamps: true });
-
-//#region Static Methods
-//#endregion
-
-//#region Hooks
-//#endregion
 
 const Booking = mongoose.model('Booking', BookingSchema);
 

@@ -5,55 +5,61 @@ const express = require('express')
   ,mongoose = require('mongoose')
   ,jwt = require('../../../lib/jwtAuth')
 
-const { check, body, validationResult } = require('express-validator/check')
 const User = require('../../../models/User')
 const Sport = require('../../../models/Sport')
-const Location = require('../../../models/Location')
+const Class = require('../../../models/Class')
 
+/**
+ * GET /
+ * Return data user and dataClass of this user.
+ * Query params:
+**/
 router.get('/user', jwt()
-  , async (req, res, next) => {
+  ,async (req, res, next) => {
   try {
+    const dataClass = await Class.find({instructor: req.userId})
+    .populate('sport', ['name', 'icon'])
+    .exec()
     User.findById(req.userId)
-    .populate('sports', 'name')
+    .populate('locations', ['location', 'description'])
+    .populate('sports')
+    //.populate('sports', '_id name icon category')
     .exec(function(err, findUser){
-      if (err) return next(err);
-      Location.find({'user': req.userId})
-      .exec(function (errLocation, dataLocation) {
-        if (errLocation) return next(err)
-        res.ptcDataResponse({
-          "coach": findUser.coach,
-          "name": findUser.name,
-          "lastname": findUser.lastname,
-          "thumbnail": findUser.thumbnail,
-          "sport": findUser.sports,
-          "location": dataLocation
-        })
-       })
+      res.ptcDataResponse({findUser, dataClass})
     })
   } catch (err) {
+    return next(err);
   }
 })
 
-router.post('/sport', jwt(), (req, res, next) => {
-  const arraySport = req.body.listsport.split(',')
-  Sport.find({name: {$in: arraySport}})
+/**
+ * POST /
+ * Change sports of the user.
+ * Query params:
+ *  - listsport: Required. Example: tenis,futbol
+**/
+router.post('/sport', jwt()
+  , async (req, res, next) => {
+  try {
+    const arraySport = req.body.listsports.split(',')
+    Sport.find({name: {$in: arraySport}})
     .exec( function (errData, dataSport) {
     if(!errData && dataSport.length == arraySport.length) {
       const arrayIdSport = dataSport.map((element) => {
         return (new mongoose.Types.ObjectId(element._id))
       })
       User.findByIdAndUpdate(req.userId, {sports: arrayIdSport})
-        .exec(function(err, data) {
-        if (err) {
-          return next(err);
-        }
-        res.ptcResponse();
-      })
-    } else {
-      const err = new Error('INCORRECT_DATA_LIST_SPORTS');
-      return next(err);
-    }
-  })
+        .exec(function(errUser, dataUser) {
+        if (!errUser) {
+          res.ptcResponse();
+          }
+        })
+      }
+    })
+  } catch (err) {
+    const error = new Error('INCORRECT_DATA_LIST_SPORTS');
+    return next(error);
+  }
 })
 
 module.exports = router

@@ -26,11 +26,5 @@ const ReviewSchema = mongoose.Schema({
   },
 }, { collection: 'reviews', timestamps: true });
                                                  
-//#region Static Methods
-//#endregion
-
-//#region Hooks
-//#endregion
-
 const Review = mongoose.model('Review', ReviewSchema);
 module.exports = Review;

@@ -11,11 +11,6 @@ const CategorySchema = mongoose.Schema({
   },
 }, { collection: 'categories', timestamps: true });
 
-//#region Static Methods
-//#endregion
-
-//#region Hooks
-//#endregion
 const Category = mongoose.model('Category', CategorySchema);
 
 module.exports = Category;
