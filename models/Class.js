@@ -25,13 +25,8 @@ const ClassSchema = mongoose.Schema({
     required: [true, 'DESCRIPTION_PLACE_NECESSARY'],
   },
   location: {
-<<<<<<< HEAD
-    type: {type: String},
-    coordinates: []
-=======
     type: LocationSchema,
-    required: [true, 'LOCATION_REQUIRED'],
->>>>>>> 68e96df68d9cb06c7119b257c3f3a5ff178c12f8
+    required: [true, 'LOCATION_REQUIRED']
   },
   duration: {
     type: Number,
