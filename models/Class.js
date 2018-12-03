@@ -1,63 +1,96 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const FREQUENCY = ['unique', 'diary', 'weekly', 'monthly'];
+const DURATION = [30, 45, 60, 90, 120]
+//const FREQUENCY = 'unique diary weekly monthly'.split();
 
 const ClassSchema = mongoose.Schema({
   type: { type: String, default: 'class' },
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
-  name: { 
-    type: String, 
-    required: [true, 'NAME_REQUIRED'], 
-    minLength: [3, 'NAME_TOO_SHORT'], 
-    maxLength: [255, 'NAME_TOO_LONG'], 
-    index: true, 
-    trim: true 
+  instructor: { 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'USER_CREATOR_REQUIRED']
   },
-  freeCoupon: { type: Boolean, default: false },
-  description: { 
-    type: String, 
-    required: [true, 'DESCRIPTION_REQUIRED'], 
-    maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
+  sport: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Sport",
+    required: [true, 'SPORT_REQUIRED'],
+    index: true
   },
-  forSale: { type: Boolean, default: true },
-  price: { type: Number, min: [1, 'PRICE_GTE_0'] },
-  photo: { type: String },
-  startDate: { type: Date, required: [true, 'STARTDATE_REQUIRED'] },
-  endDate: { type: Date },
-  time: { 
-    hour: { type: Number, required: [true, 'HOUR_REQUIRED'], min: [0, 'HOUR_GTE_0'], max: [23, 'HOUR_LTE_23'] },
-    minute: { type: Number, required: [true, 'MINUTE_REQUIRED'], min: [0, 'MINUTE_GTE_0'], max: [59, 'MINUTE_LTE_59'] }
+  place: {
+    type: String,
+    maxLength: [1024, 'DESCRIPTION_TOO_LONG'],
+    required: [true, 'DESCRIPTION_PLACE_NECESSARY'],
   },
-  duration: { type: Number, min: [0.5, 'DURATION_GTE_0'] },
-  frecuency: {type: String, enum: { values: FREQUENCY, message: 'UNKNOWN_FREQUENCY'} },
-  quota: { type: Number, required: [true, 'QUOTA_REQUIRED'], default: 10 },
   location: {
-    type: { type: String, default: 'Point' },
-    description: { type: String },
+    type: {type: String},
     coordinates: []
   },
-  activities: [{ type: Schema.Types.ObjectId, ref: 'Activity' }]
-}, { collection: 'classes', timestamps: true }); // si no se indica collections tomara el nombre
-                                                 // del model en minuscula y pluralizado
+  duration: {
+    type: Number,
+    enum: [DURATION, 'UNKNOWN_DURATION'],
+    required: true
+  },
+  price: {
+    type: Number,
+    min: [0, 'PRICE_GTE_0'],
+    max: [50, 'PRICE_LTE_50'],
+    required: true,
+    index: true
+  },
+  registered: {
+    type: Number,
+    default: 0,
+    index: true
+  },
+  description: { 
+    type: String,
+    maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
+  }
+}, { collection: 'classes', timestamps: true })
 
-//#region Indexes
-
-// Full text search index
-ClassSchema.index({ name: 'text', description: 'text' });
-
-// spatial index
-ClassSchema.index({ location: "2dsphere" });
-
-//#endregion
-
-//#region Static Methods
+ClassSchema.index({ location: "2dsphere" })
 
 /**
  * Returns class list.
- * @param filters
+ * @param filterss
+ *  - duration: 30 | 45 | 60| 90 | 120
+ *  - price: 0-50
+ *  - sport: id_sport
+ *  - instructor: id_instructor
+ *  - longitude: -180 | 180
+ *  - latitude: -90 | 90
+ *  - distance: number
+ * @param page
+ * @param per_page
+ * @param sort
+ * @param fields
+ */
+ClassSchema.statics.list = function (filters) {
+  const query = Class.find({})
+ 
+  if (filters.sport) {query.where('sport', filters.sport)}
+  if (filters.instructor) {query.where('instructor', filters.instructor)}
+  if (filters.price) {query.where('price').lte(filters.price)}
+  if (filters.duration) {query.where('duration', filters.duration)}
+  if (filters.longitude && filters.latitude && filters.distance) {
+    query.where({ location: { $near: {
+      $maxDistance: filters.distance,
+      $geometry: { type: "Point", coordinates: [filters.longitude, filters.latitude]}
+      }}
+    })
+  }
+
+  return (query
+    .populate({path: 'instructor', select: ['name', 'lastname', 'thumbnail']})
+    .populate({path: 'sport', select: ['name']})
+    .exec())
+}
+
+/**
+ * Returns class list.
+ * @param filterss
  *  - forSale: false | true
  *  - price: 0-50 | 10- | -50 | 50
  *  - name: Regex /^name/i
@@ -67,58 +100,11 @@ ClassSchema.index({ location: "2dsphere" });
  * @param sort
  * @param fields
  */
-ClassSchema.statics.list = async (filters, page, per_page, sort, fields) => {
-  // Remove undefine filters
-  for (let key in filters) {
-    if (!filters[key]) {
-      delete filters[key];
-      continue;
-    }
+/*
+ClassSchema.statics.list = async (filterss, page, per_page, sort, fields) => {
 
-    switch (key) {
-      case 'price':
-        const range = filters[key].split('-');
-        if (range.length == 1) {
-          filters[key] = range[0];
-        } else if (!range[0]) {
-          filters[key] = { $lte: range[1] };
-        } else if (!range[1]) {
-          filters[key] = { $gte: range[0] };
-        } else {
-          filters[key] = { $gte: range[0], $lte: range[1] };
-        }
-        break;
-
-      case 'name':
-        filters[key] = new RegExp('^' + filters[key], 'i');
-        break;
-
-      case 'location':
-        // https://medium.com/@galford151/mongoose-geospatial-queries-with-near-59800b79c0f6
-        // In our query, “$maxDistance” is the distance in meters from the longitude and latitude values
-        const coordinates = filters[key].split('-');
-        const long = coordinates[0];
-        const latt = coordinates[1];
-        filters[key] = {
-          $near: {
-            $maxDistance: 20000,
-            $geometry: {
-              type: "Point",
-              coordinates: [long, latt]
-            }
-          }
-        };
-        break;
-
-      //case 'tags':
-        //filters[key] = { $in: filters[key].split(',') };
-        //delete filters[key];
-        //break;
-    }
-  }
-
-  const count = await Ad.find(filters).count();
-  const query = Ad.find(filters);
+  const count = await Ad.find(filterss).count();
+  const query = Ad.find(filterss);
 
   query.skip(page);
   query.limit(per_page);
@@ -140,6 +126,7 @@ ClassSchema.pre('save', function(next) {
 });
 
 //#endregion
+*/
 
 const Class = mongoose.model('Class', ClassSchema);
 
