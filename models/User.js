@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
+const LocationSchema = require('./Location');
+
 const UserSchema = mongoose.Schema({
   type: { type: String, default: 'user' },
   coach: {
@@ -55,10 +57,9 @@ const UserSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Sport"
   }],
-  locations: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location"
-  }]
+  locations: {
+    type: [LocationSchema],
+  },
 }, { collection: 'users', timestamps: true });
 
 UserSchema.index({'lastname': 'text'})

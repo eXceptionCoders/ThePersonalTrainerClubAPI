@@ -7,6 +7,7 @@ const express = require('express')
 
 const { check, validationResult } = require('express-validator/check')
 const Class = require('../../../models/Class')
+<<<<<<< HEAD
 const Location = require('../../../models/Location')
 
 /**
@@ -60,6 +61,24 @@ router.get('/find', jwt(), [
   check('longitude').optional().isNumeric({min: -90, max:90}).withMessage('LONGITUDE_NOT_VALID'),
   check('latitude').optional().isNumeric({min: -180, max: 180}).withMessage('LATITUDE_NOT_VALID'),
   check('distance').optional().isInt({min: 0, max: 20000}).withMessage('DISTANCE_NOT_VALID'),
+=======
+
+router.post('/add', jwt(), (req, res, next) => {
+  const newClass = new Class(req.body)
+  newClass.save((err, classSaved ) => {
+    if (err) {
+      return next(err);
+    }
+    res.ptcResponse();
+  });
+});
+
+
+router.get('/find', jwt(),
+  [
+  query('price').optional().matches().withMessage('PRICE_RANGE_NOT_VALID'),
+  query('duration').optional().matches().withMessage('DURATION_RANGE_NOT_VALID')
+>>>>>>> 68e96df68d9cb06c7119b257c3f3a5ff178c12f8
   ],
   async (req, res, next) => {
     try {

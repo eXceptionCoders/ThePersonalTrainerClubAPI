@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const LocationSchema = require('./Location');
 
 const DURATION = [30, 45, 60, 90, 120]
 //const FREQUENCY = 'unique diary weekly monthly'.split();
@@ -24,8 +25,13 @@ const ClassSchema = mongoose.Schema({
     required: [true, 'DESCRIPTION_PLACE_NECESSARY'],
   },
   location: {
+<<<<<<< HEAD
     type: {type: String},
     coordinates: []
+=======
+    type: LocationSchema,
+    required: [true, 'LOCATION_REQUIRED'],
+>>>>>>> 68e96df68d9cb06c7119b257c3f3a5ff178c12f8
   },
   duration: {
     type: Number,
@@ -39,11 +45,7 @@ const ClassSchema = mongoose.Schema({
     required: true,
     index: true
   },
-  registered: {
-    type: Number,
-    default: 0,
-    index: true
-  },
+  quota: { type: Number, required: [true, 'QUOTA_REQUIRED'], default: 10 },
   description: { 
     type: String,
     maxLength: [2048, 'DESCRIPTION_TOO_LONG'] 
