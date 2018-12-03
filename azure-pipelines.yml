@@ -25,10 +25,21 @@ steps:
   inputs:
     command: install
 
+# - task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+#    artifactName: 'api' 
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)'
     artifactName: 'api' 
+
+
 
 # To upload a subset of files, first copy the necessary files from the working directory to a staging directory, and then use the PublishBuildArtifacts task.
 # - task: CopyFiles@2
