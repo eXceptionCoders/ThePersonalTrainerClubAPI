@@ -8,7 +8,8 @@ const express = require('express')
 const User = require('../../../models/User')
 const Sport = require('../../../models/Sport')
 const Class = require('../../../models/Class')
-
+const Booking = require('../../../models/Booking')
+ 
 /**
  * GET /
  * Return data user and dataClass of this user.
@@ -17,15 +18,21 @@ const Class = require('../../../models/Class')
 router.get('/user', jwt()
   ,async (req, res, next) => {
   try {
-    const dataClass = await Class.find({instructor: req.userId})
+    const intructorClass = await Class.find({instructor: req.userId})
     .populate('sport', ['name', 'icon'])
     .exec()
+    const userClass = await Booking.find({user: req.userId})
+    .populate('user')
+    .populate('class')
+    .exec(function (errUserClass, userClasse){
+      userClasse.populate('instructor', 'name')
+    })
     User.findById(req.userId)
     .populate('locations', ['location', 'description'])
     .populate('sports')
     //.populate('sports', '_id name icon category')
     .exec(function(err, findUser){
-      res.ptcDataResponse({findUser, dataClass})
+      res.ptcDataResponse({findUser, intructorClass, userClass, })
     })
   } catch (err) {
     return next(err);

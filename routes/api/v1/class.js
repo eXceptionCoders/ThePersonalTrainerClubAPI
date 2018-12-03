@@ -2,8 +2,8 @@
 
 const express = require('express')
   ,router = express.Router()
-  ,mongoose = require('mongoose')
   ,jwt = require('../../../lib/jwtAuth')
+  ,moment = require('moment')
 
 const { check, validationResult } = require('express-validator/check')
 const Class = require('../../../models/Class')
@@ -70,6 +70,20 @@ router.get('/find', jwt(), [
     } catch (err) {
       return next(err);
     }
+})
+
+router.get('/nana', (req, res, next) => {
+  moment().format('YYYYMMDD')
+  const initialDate = moment('2018-01-01', 'YYYY-MM-DD')
+  const endDate = moment('2018-04-30', 'YYYY-MM-DD')
+  const interval = 7
+  const arrayOfDates = []
+  var currentDate = initialDate
+  while (moment(currentDate).isBefore(endDate)){
+    currentDate.add(interval, 'day')
+    console.log (currentDate.year())
+  }
+  res.ptcDataResponse({'ok':'ok'})  
 })
 
 module.exports = router

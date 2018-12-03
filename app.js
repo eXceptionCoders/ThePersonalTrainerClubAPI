@@ -25,7 +25,7 @@ const datauser = require('./routes/api/v1/datauser');
 const classes = require('./routes/api/v1/class');
 const location = require('./routes/api/v1/location')
 const sports = require('./routes/api/v1/sports')
-
+const booking = require('./routes/api/v1/booking')
 const app = express();
 
 // DB connector
@@ -71,6 +71,7 @@ app.use('/api/v1/:lang(en|es)/datauser', language, datauser);
 app.use('/api/v1/:lang(en|es)/class', language, classes);
 app.use('/api/v1/:lang(en|es)/location', language, location);
 app.use('/api/v1/:lang(en|es)/sports', language, sports);
+app.use('/api/v1/:lang(en|es)/booking', language, booking);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
