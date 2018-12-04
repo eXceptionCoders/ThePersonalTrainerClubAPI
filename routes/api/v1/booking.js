@@ -2,7 +2,7 @@
 
 const express = require('express')
   ,router = express.Router()
-  ,jwt = require('../../../lib/jwtAuth')
+  ,jwt = require('../../../lib/jwtAuth');
 
 const { check, validationResult } = require('express-validator/check')
 const Class = require('../../../models/Class')
@@ -13,17 +13,17 @@ const Booking = require('../../../models/Booking')
  * Find booking for a user
 **/
 router.get('/find', jwt(),
-async (req, res, next) => {
-  try {
-    const dataBooking = await Booking.find({user: req.userId})
-      .populate('class')
-      .populate('user')
-    res.ptcDataResponse(dataBooking)  
-  } catch (err) {
-    const error = new Error('BOOKING_ERROR')
-    return next(error)
-  }
-})
+  async (req, res, next) => {
+    try {
+      const dataBooking = await Booking.find({user: req.userId})
+        .populate('class')
+        .populate('user')
+      res.ptcDataResponse(dataBooking)  
+    } catch (err) {
+      const error = new Error('BOOKING_ERROR')
+      return next(error)
+    }
+  });
 
 /**
  * POST /
@@ -33,12 +33,12 @@ async (req, res, next) => {
 **/
 router.post('/check', jwt(), [
   check('class').isAlphanumeric().withMessage('CLASS_NECESSARY'),
-],
-async (req, res, next) => {
+], async (req, res, next) => {
   try {
     validationResult(req).throw();
+
     const placeTrue = await Class.findById(req.body.class)
-    if (placeTrue.registered > 10) throw new Error()
+    if (placeTrue.registered > placeTrue.maxusers) throw new Error()
     await Class.findByIdAndUpdate(req.body.class, {$inc: {registered: 1}})
     req.body.user = req.userId
     const newBooking = await new Booking(req.body)
@@ -48,6 +48,6 @@ async (req, res, next) => {
     const error = new Error ('DO_NOT_CREATE_CLASS')
     return next(error);
   }
-})
+});
 
 module.exports = router

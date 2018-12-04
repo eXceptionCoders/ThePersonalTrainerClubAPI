@@ -2,27 +2,39 @@
 
 const express = require('express')
   ,router = express.Router()
-  ,jwt = require('../../../lib/jwtAuth')
+  ,jwt = require('../../../lib/jwtAuth');
 
-const Sport = require('../../../models/Sport')
+const Sport = require('../../../models/Sport');
+const Category =  require('../../../models/Category');
 
 /**
  * GET /
- * Return sports.
- * Query params:
+ * Return sports
 **/
 router.get('/', jwt()
   ,async (req, res, next) => {
   try {
-    Sport.find({})
-    //.populate('category')
-    .exec(function(errSport, dataSport){
-      if (!errSport) {
-        res.ptcDataResponse(dataSport)
-      }
-    })   
+    const dataSport = await Sport.find({})
+      //.populate('category')
+    res.ptcDataResponse(dataSport)
   } catch (err) {
-    return next(err);
+    const error = new Error ('CAN_NOT_LIST_SPORTS')
+    return next(error);
+  }
+})
+
+/**
+ * GET /
+ * Return category
+**/
+router.get('/category', jwt()
+  ,async (req, res, next) => {
+  try {
+    const dataCategory = await Category.find({})
+    res.ptcDataResponse(dataCategory)
+  } catch (err) {
+    const error = new Error ('CAN_NOT_LIST_CATEGORY')
+    return next(error);
   }
 })
 

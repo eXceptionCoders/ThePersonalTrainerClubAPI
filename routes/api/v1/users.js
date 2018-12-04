@@ -1,15 +1,10 @@
-/**
- * @description The Personal Trainer Club Reestful API
- * @version 1.0.0
- */
-
 'use strict';
 
-const express = require('express');
-const router = express.Router();
-const jwt = require('jsonwebtoken');
-const { check, body, validationResult } = require('express-validator/check');
+const express = require('express')
+  ,router = express.Router()
+  ,jwt = require('jsonwebtoken');
 
+const { check, body, validationResult } = require('express-validator/check');
 const User = require('../../../models/User');
 
 /**
@@ -76,7 +71,5 @@ router.post('/login', [
     next(err);
   }
 });
-
-
 
 module.exports = router;
