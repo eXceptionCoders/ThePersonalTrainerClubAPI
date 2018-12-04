@@ -28,6 +28,12 @@ const UserSchema = mongoose.Schema({
     trim: true,
     index: true 
   },
+  gender: { 
+    type: String,
+    default: 'male', 
+    required: [true, 'GENDER_REQUIRED'], 
+    enum: { values: ['male', 'female'], message: 'UNKNOWN_GENDER' } 
+  },
   thumbnail: { 
     type: String,
     maxLength: [512],

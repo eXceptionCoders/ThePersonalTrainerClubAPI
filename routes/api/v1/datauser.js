@@ -16,7 +16,7 @@ const Booking = require('../../../models/Booking');
  * Return data user and dataClass of this user.
  * Query params:
 **/
-router.get('/user', jwt()
+router.get('/', jwt()
   ,async (req, res, next) => {
   try {
     const intructorClass = await Class.find({instructor: req.userId})
@@ -44,7 +44,15 @@ router.get('/user', jwt()
         }
 
         res.ptcDataResponse({
-          ...findUser, 
+          _id: findUser._id,
+          coach: findUser.coach,
+          name: findUser.name,
+          lastname: findUser.lastname,
+          email: findUser.email,
+          gender: findUser.gender,
+          thumbnail: findUser.thumbnail,
+          sports: findUser.sports,
+          locations: findUser.locations, 
           intructorClass: intructorClass, 
           userClass: userClass 
         });
