@@ -54,8 +54,8 @@ router.get('/', jwt()
           thumbnail: findUser.thumbnail,
           sports: findUser.sports,
           locations: findUser.locations, 
-          instructorClass: instructorClass, 
-          userClass: (userClass || []).map(booking => booking.class)
+          classes: instructorClass, 
+          activeBookings: (userClass || []).map(booking => booking.class)
         });
       });
   } catch (err) {
