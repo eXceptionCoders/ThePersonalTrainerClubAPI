@@ -19,7 +19,7 @@ const Booking = require('../../../models/Booking');
 router.get('/', jwt()
   ,async (req, res, next) => {
   try {
-    const intructorClass = await Class.find({instructor: req.userId})
+    const instructorClass = await Class.find({instructor: req.userId})
       .populate('sport', '_id name icon category')
       .exec();
 
@@ -53,7 +53,7 @@ router.get('/', jwt()
           thumbnail: findUser.thumbnail,
           sports: findUser.sports,
           locations: findUser.locations, 
-          intructorClass: intructorClass, 
+          instructorClass: instructorClass, 
           userClass: (userClass || []).map(booking => booking.class)
         });
       });
