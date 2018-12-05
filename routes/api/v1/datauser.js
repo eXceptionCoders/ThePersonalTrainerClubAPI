@@ -21,6 +21,7 @@ router.get('/', jwt()
   try {
     const instructorClass = await Class.find({instructor: req.userId})
       .populate('sport', '_id name icon category')
+      .populate('instructor', '_id name lastname thumbnail')
       .exec();
 
     const userClass = await Booking.find({user: req.userId})
