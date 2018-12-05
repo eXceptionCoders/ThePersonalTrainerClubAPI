@@ -1,0 +1,5 @@
+[
+  {"active": true, "hoursForCancelation": 0, "repurse": 100 , "description" : "La clase puede ser anulada de forma gratuita sin coste para el usuario. Pero debe darse de baja antes del inicio de la actividad para que no se considere que fue realizada"},
+  {"active": true, "hoursForCancelation": 24, "repurse": 80 , "description" : "La clase puede ser anulada hasta 24 horas antes del inicio de la clase . Pero no se realizara un cargo del 20 % del coste de la clase en concepto gastos de gestion."},
+  {"active": true, "hoursForCancelation": 48, "repurse": 90 , "description" : "Este tipo solo es aplicable a clases con un inicio superior a 48h desde la compra y la clase puede ser anulada hasta 24 horas antes teniendo un coste del 10% del coste de la clase."}
+]

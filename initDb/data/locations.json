@@ -1,0 +1,52 @@
+[
+  {
+    "type": "Point",
+    "description": "Centro deportivo La Cuesta",
+    "coordinates": [-4.838705, 41.517896]
+  }, 
+  {
+    "type": "Point",
+    "description": "Parque Buena Vista",
+    "coordinates": [-4.487915, 41.984999]
+  }, 
+  {
+    "type": "Point",
+    "description": "Polideporitvo Madrid",
+    "coordinates": [-16.314164, 28.491102]
+  }, 
+  {
+    "type": "Point",
+    "description": "Casa del deporte",
+    "coordinates": [-16.250426, 28.475385]
+  }, 
+  {
+    "type": "Point",
+    "description": "Laguna Sport",
+    "coordinates": [-16.409709, 28.477816]
+  },
+  {
+    "type": "Point",
+    "description": "EuroGym",
+    "coordinates": [-16.328035, 28.421851]
+  },
+  {
+    "type": "Point",
+    "description": "Parque Sanabria",
+    "coordinates": [-15.507975, 28.051492]
+  },
+  {
+    "type": "Point",
+    "description": "Centro de deportes",
+    "coordinates": [1.982596, 41.429238]
+  },
+  {
+    "type": "Point",
+    "description": "Gym full sport",
+    "coordinates": [1.707717, 41.325210]
+  },
+  {
+    "type": "Point",
+    "description": "Madrid sport",
+    "coordinates": [2.869862, 39.663255]
+  }
+]

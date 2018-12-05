@@ -1,0 +1,54 @@
+[
+  {
+    "instructor": "Javier", 
+    "sport": "tenis", 
+    "duration": 60, 
+    "price": 25,
+    "description": "Clases de tenis para niños sin experiencia", 
+    "maxusers": 50,
+    "place": "Centro deportivo La Cuesta",
+    "location":   {
+      "type": "Point",
+      "coordinates": [-4.838705, 41.517896]
+    }
+  },
+  {
+    "instructor": "Agustin", 
+    "sport": "voleibol", 
+    "duration": 60, 
+    "price": 15,
+    "description": "Entrenamiento para liga de voleibol", 
+    "maxusers": 50,
+    "place": "Parque Buena Vista",
+    "location":   {
+      "type": "Point",
+      "coordinates": [-4.487915, 41.984999]
+    }
+  },
+  {
+    "instructor": "Manuel", 
+    "sport": "judo", 
+    "duration": 90, 
+    "price": 20,
+    "description": "Varios niveles", 
+    "maxusers": 50,
+    "place": "Polideporitvo Madrid",
+    "location":   {
+      "type": "Point",
+      "coordinates": [-16.314164, 28.491102]
+    }
+  },
+  {
+    "instructor": "Jimena", 
+    "sport": "natacion", 
+    "duration": 45, 
+    "price": 30,
+    "description": "Clases desde aprende a nadar hasta sacate el titulo de socorrista", 
+    "maxusers": 50,
+    "place": "Casa del deporte",
+    "location": {
+      "type": "Point",
+      "coordinates": [-16.250426, 28.475385]
+    }
+  }
+]

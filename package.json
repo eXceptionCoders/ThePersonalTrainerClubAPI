@@ -5,7 +5,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon ./bin/www",
     "cluster": "cross-env NODE_ENV=production node ./bin/cluster",
-    "dev": "cross-env DEBUG=nodeapi:* nodemon ./bin/www"
+    "dev": "cross-env DEBUG=nodeapi:* nodemon ./bin/www",
+    "initDb": "cross-env node ./initDb/initDb.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

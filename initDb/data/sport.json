@@ -1,0 +1,14 @@
+[
+  {"name": "futbol", "category": "pelota", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/futbol.png" },
+  {"name": "baloncesto", "category": "pelota", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/baloncesto.png" },
+  {"name": "voleibol", "category": "pelota", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/voleibol.png"},
+  {"name": "balonmano", "category": "pelota", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/balonmano.png"},
+  {"name": "tenis", "category": "raqueta", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/tenis.png"},
+  {"name": "padel", "category": "raqueta", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/padel.png"},
+  {"name": "judo", "category": "defensa personal", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/jugo.png"},
+  {"name": "karate", "category": "defensa personal", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/karate.png"},
+  {"name": "boxeo", "category":  "defensa personal", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/boxeo.png"},
+  {"name": "remo", "category": "acuaticos", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/remo.png"},
+  {"name": "natacion", "category": "acuaticos", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/natacion.png"},
+  {"name": "waterpolo", "category": "acuaticos", "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/waterpolo.png"}
+]

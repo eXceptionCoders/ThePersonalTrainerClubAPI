@@ -1,0 +1,12 @@
+[
+  {"name": "Manuel", "sport": "tenis"},
+  {"name": "Manuel", "sport": "judo"},
+  {"name": "Javier", "sport": "tenis"},
+  {"name": "Javier", "sport": "voleibol"},
+  {"name": "Fernando", "sport": "futbol"},
+  {"name": "Agustin", "sport": "voleibol"},
+  {"name": "Jimena", "sport": "judo"},
+  {"name": "Jimena", "sport": "natacion"},
+  {"name": "Jimena", "sport": "waterpolo"},
+  {"name": "Judit", "sport": "padel"}
+]
