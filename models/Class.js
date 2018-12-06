@@ -80,47 +80,69 @@ ClassSchema.index({ location: "2dsphere" });
  *  - longitude: -180 | 180, latitude: -90 | 90, distance: number
  *  - timetable: | 0 (6:00-12:00) | 1 (12:00-16:00) | 2 (16:00-20:00) | 3 (20:00-24:00) |
  *  - date: | today | tomorrow | week | moth | 
+ * @param page
+ * @param per_page
+ * @param sort
  */
-ClassSchema.statics.list = async function (filters) {
-  const query = Class.find({})
-  const limitFind = 20
+ClassSchema.statics.list = async function (filters, page, per_page, sort) {
+  for (let key in filters) {
+    if (!filters[key]) {
+        delete filters[key];
+        continue;
+    }
 
-  if (filters.sport) {
-    query.where('sport', filters.sport);
+    switch (key) {
+      case 'sport':
+        break;
+      case 'timetable':
+        const tableOftimetable = [[6,12], [12,16], [16,20], [20,24]]
+        const mintime = tableOftimetable[filters.timetable][0]
+        const maxtime = tableOftimetable[filters.timetable][1]
+        filters[key] = { time: {$gt: mintime, $lt: maxtime} };
+        break;
+      case 'date':
+        const period = await calculatePeriodDates(filters.date)
+        query.where({date: {$gt: period[0], $lt: period[1]}});
+        break;
+      case 'price':
+        const range = filters[key].split('-');
+        if (range.length == 1) {
+            filters[key] = range[0];
+        } else if (!range[0]) {
+            filters[key] = { $lte: range[1] };
+        } else if (!range[1]) {
+            filters[key] = { $gte: range[0] };
+        } else {
+            filters[key] = { $gte: range[0], $lte: range[1] };
+        }
+        break;
+    }
   }
 
   if (filters.longitude && filters.latitude && filters.distance) {
-    query.where({ location: { $near: {
-      $maxDistance: filters.distance,
-      $geometry: { type: "Point", coordinates: [filters.longitude, filters.latitude]}
-      }}
-    });
+    filters['location'] = {
+      $near: {
+        $maxDistance: filters.distance,
+        $geometry: { type: 'Point', coordinates: [filters.longitude, filters.latitude]}
+      }
+    };
   }
 
-  if (filters.timetable) {
-    const tableOftimetable = [[6,12], [12,16], [16,20], [20,24]]
-    const mintime = tableOftimetable[filters.timetable][0]
-    const maxtime = tableOftimetable[filters.timetable][1]
-    query.where({time: {$gt: mintime, $lt: maxtime}});
-  }
+  delete filters.longitude;
+  delete filters.latitude;
+  delete filters.distance;
 
-  if (filters.date) {
-    const period = await calculatePeriodDates(filters.date)
-    query.where({date: {$gt: period[0], $lt: period[1]}});
-  }
+  const count = await Class.find(filters).count();
+  const query = Class.find(filters);
 
-  /*
-  if (filters.price) {query.where('price').lte(filters.price)}
-  //if (filters.instructor) {query.where('instructor', filters.instructor)}
-  //if (filters.duration) {query.where('duration', filters.duration)}
-  */
+  query.skip(page);
+  query.populate({path: 'instructor', select: ['_id', 'name', 'lastname', 'thumbnail']})
+  query.populate({path: 'sport', select: ['_id', 'name', 'icon', 'category']})
+  query.limit(per_page);
+  query.sort(sort);
+  // query.select(fields);
 
-  query.limit(limitFind);
-  query.sort({date: 1})
-  return (query
-    .populate({path: 'instructor', select: ['name', 'lastname', 'thumbnail']})
-    .populate({path: 'sport', select: ['name']})
-    .exec());
+  return { total: count, rows: await query.exec() };
 }
 
 const Class = mongoose.model('Class', ClassSchema);

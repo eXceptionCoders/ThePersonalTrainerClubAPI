@@ -4,7 +4,7 @@ const express = require('express')
   ,router = express.Router()
   ,jwt = require('../../../lib/jwtAuth');
 
-const { check, validationResult } = require('express-validator/check');
+const { check, query, validationResult } = require('express-validator/check');
 const Class = require('../../../models/Class');
 
 /**
@@ -89,25 +89,39 @@ router.post('/add', jwt(), [
  *  - distance: Example: 100
  *  - timetable: Example: 2 |0 (6:00-12:00)|1 (12:00-16:00)|2 (16:00-20:00)|3 (20:00-24:00)|
  *  - date: Example: 2 |0 hoy|1 mañana|2 semana|3 mes|
- *  - price: Example: 12
+ *  - price: Example: 0-50 | 10- | -50 | 50
 **/
 router.get('/find', jwt(), [
-  check('sport').optional().isString().withMessage('SPORT_NOT_VALID'),
-  check('longitude').optional().isNumeric({min: -90, max:90}).withMessage('LONGITUDE_NOT_VALID'),
-  check('latitude').optional().isNumeric({min: -180, max: 180}).withMessage('LATITUDE_NOT_VALID'),
-  check('distance').optional().isInt({min: 0, max: 20000}).withMessage('DISTANCE_NOT_VALID'),
-  check('timetable').optional().isInt({min: 0, max: 3}).withMessage('TIMETABLE_NOT_VALID'),
-  check('date').optional().isString().withMessage('DATE_NOT_VALID'),
-  check('price').optional().isInt({min: 0, max: 50}).withMessage('PRICE_RANGE_NOT_VALID')
-  //check('duration').optional().isNumeric({min: 30, max: 120}).withMessage('DURATION_RANGE_NOT_VALID'),
-  //check('instructor').optional().isString().withMessage('INTRUCTOR_NOT_VALID'),
+  query('sport').optional().isString().withMessage('SPORT_NOT_VALID'),
+  query('longitude').optional().isNumeric({min: -90, max:90}).withMessage('LONGITUDE_NOT_VALID'),
+  query('latitude').optional().isNumeric({min: -180, max: 180}).withMessage('LATITUDE_NOT_VALID'),
+  query('distance').optional().isInt({min: 0, max: 20000}).withMessage('DISTANCE_NOT_VALID'),
+  query('timetable').optional().isInt({min: 0, max: 3}).withMessage('TIMETABLE_NOT_VALID'),
+  query('date').optional().isString().withMessage('DATE_NOT_VALID'),
+  query('price').optional().isInt({min: 0, max: 50}).withMessage('PRICE_RANGE_NOT_VALID'),
+  query('page').isInt({ min: 0 }).withMessage('PAGE_MUST_BE_NUMERIC'),
+  query('per_page').optional().isInt({ min: 1 }).withMessage('PER_PAGE_MUST_BE_NUMERIC')
 ], async (req, res, next) => {
     try {
       validationResult(req).throw();
 
-      const filters = req.body
-      const classes = await Class.list(filters)
-      res.ptcDataResponse(classes)  
+      const filter = {
+        sport: req.query.sport,
+        longitude: req.query.longitude,
+        latitude: req.query.latitude,
+        distance: req.query.distance,
+        timetable: req.query.timetable,
+        date: req.query.date,
+        price: req.query.price
+      };
+
+      const page = parseInt( req.query.page ) || 0;
+      const per_page = parseInt( req.query.per_page ) || 10;
+      
+      const sort = req.query.sort || 'date';
+
+      const result = await Class.list(filter, page, per_page, sort);
+      res.ptcPaginatedResponse( result.rows, result.total );
     } catch (err) {
       const error = new Error('INCORRECT_FILTERS')
       return next(error);
