@@ -5,6 +5,7 @@ const express = require('express')
   ,jwt = require('../../../lib/jwtAuth');
 
 const { check, body, validationResult } = require('express-validator/check');
+const User = require('../../../models/User');
 const Sport = require('../../../models/Sport');
 const Category =  require('../../../models/Category');
 
