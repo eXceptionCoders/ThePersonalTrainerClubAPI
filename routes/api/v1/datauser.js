@@ -4,10 +4,7 @@ const express = require('express')
   ,router = express.Router()
   ,jwt = require('../../../lib/jwtAuth');
 
-const { check, body, validationResult } = require('express-validator/check');
-
 const User = require('../../../models/User');
-const Sport = require('../../../models/Sport');
 const Class = require('../../../models/Class');
 const Booking = require('../../../models/Booking');
  
@@ -60,35 +57,6 @@ router.get('/', jwt()
       });
   } catch (err) {
     return next(err);
-  }
-});
-
-/**
- * POST /
- * Change sports of the user.
- * Query params:
- *  - listsport: Required. Example: tenis,futbol
-**/
-router.post('/sport', jwt(), [
-  check('listsports').isString().withMessage('INCORRECT_DATA_LIST_SPORTS'),
-], async (req, res, next) => {
-  try {
-    validationResult(req).throw()
-
-    const arraySport = req.body.listsports.split(',')
-    const dataSport = await Sport.find({name: {$in: arraySport}})
-    if(dataSport.length == arraySport.length) {
-      await dataSport.forEach(async function(data, i){
-        dataSport[i] = data._id
-      })
-      await User.findByIdAndUpdate(req.userId, {sports: dataSport})
-      res.ptcResponse()
-    } else {
-      throw new Error()
-    }
-  } catch (err) {
-    const error = new Error('CAN_NOT_UPDATE_SPORTS')
-    return next(error);
   }
 });
 
