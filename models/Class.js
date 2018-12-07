@@ -118,8 +118,10 @@ ClassSchema.statics.list = async function (filters, page, per_page) {
     }
   }
 
+  let coordinates, distance = 5000;
   if (filters.longitude && filters.latitude && filters.distance) {
     // $near sorts documents by distance
+    /*
     filters['location'] = {
       $near: {
         $maxDistance: filters.distance,
@@ -127,14 +129,34 @@ ClassSchema.statics.list = async function (filters, page, per_page) {
         $geometry: { type: 'Point', coordinates: [filters.longitude, filters.latitude]}
       }
     };
+    */
+    coordinates = [filters.longitude, filters.latitude];
+    distance = filters.distance;
   }
 
   delete filters.longitude;
   delete filters.latitude;
   delete filters.distance;
 
-  const count = await Class.find(filters).count();
-  const query = Class.find(filters);
+  const aggregation = [ {
+    $match: filters
+  } ];
+
+  if (coordinates) {
+    aggregation.push( {
+      $geoNear: {
+        near: { type: "Point", coordinates: coordinates },
+        distanceField: "distance",
+        maxDistance: distance,
+        spherical: true
+      }
+    } );
+  }
+
+  const count = await Class.aggregate(aggregation).count();
+  // const count = await Class.find(filters).count();
+  const query = Class.aggregate(aggregation);
+  // const query = Class.find(filters);
 
   query.skip(page);
   query.populate({path: 'instructor', select: ['_id', 'name', 'lastname', 'thumbnail']})
