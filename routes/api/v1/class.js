@@ -117,10 +117,8 @@ router.get('/find', jwt(), [
 
       const page = parseInt( req.query.page ) || 0;
       const per_page = parseInt( req.query.per_page ) || 10;
-      
-      const sort = req.query.sort || 'date';
 
-      const result = await Class.list(filter, page, per_page, sort);
+      const result = await Class.list(filter, page, per_page);
       res.ptcPaginatedResponse( result.rows, result.total );
     } catch (err) {
       return next(err);

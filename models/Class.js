@@ -82,9 +82,8 @@ ClassSchema.index({ location: "2dsphere" });
  *  - date: | today | tomorrow | week | moth | 
  * @param page
  * @param per_page
- * @param sort
  */
-ClassSchema.statics.list = async function (filters, page, per_page, sort) {
+ClassSchema.statics.list = async function (filters, page, per_page) {
   for (let key in filters) {
     if (!filters[key]) {
         delete filters[key];
@@ -120,9 +119,11 @@ ClassSchema.statics.list = async function (filters, page, per_page, sort) {
   }
 
   if (filters.longitude && filters.latitude && filters.distance) {
+    // $near sorts documents by distance
     filters['location'] = {
       $near: {
         $maxDistance: filters.distance,
+        $distanceField: 'distance',
         $geometry: { type: 'Point', coordinates: [filters.longitude, filters.latitude]}
       }
     };
@@ -139,7 +140,7 @@ ClassSchema.statics.list = async function (filters, page, per_page, sort) {
   query.populate({path: 'instructor', select: ['_id', 'name', 'lastname', 'thumbnail']})
   query.populate({path: 'sport', select: ['_id', 'name', 'icon', 'category']})
   query.limit(per_page);
-  query.sort(sort);
+  // query.sort(sort);
   // query.select(fields);
 
   return { total: count, rows: await query.exec() };
