@@ -21,6 +21,7 @@ const ErrorResponse = require('./schema/ErrorResponse');
 // Routes
 const index = require('./routes/index');
 const users = require('./routes/api/v1/users');
+const admin = require('./routes/api/v1/admin');
 const datauser = require('./routes/api/v1/datauser');
 const classes = require('./routes/api/v1/class');
 const location = require('./routes/api/v1/location')
@@ -39,7 +40,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev', {
   skip: (req, res) => {
-    return res.statusCode < 400; 
+    return res.statusCode < 400;
   }
 }));
 app.use(bodyParser.json());
@@ -67,6 +68,7 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/api/v1/:lang(en|es)/users', language, users);
+app.use('/api/v1/:lang(en|es)/admin', language, admin);
 app.use('/api/v1/:lang(en|es)/datauser', language, datauser);
 app.use('/api/v1/:lang(en|es)/class', language, classes);
 app.use('/api/v1/:lang(en|es)/location', language, location);
@@ -92,7 +94,7 @@ app.use((err, req, res, next) => {
     res.json(new ErrorResponse(customError));
     return;
   }
-  
+
   // set locals, only providing error in development
   res.locals.message = customError.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -103,8 +105,8 @@ app.use((err, req, res, next) => {
 
 /**
  * Checks if the current request is a API request.
- * @param {Request} req 
- * @return {bool} 
+ * @param {Request} req
+ * @return {bool}
  */
 function isAPI(req) {
   return req.originalUrl.indexOf('/api/v') === 0;
@@ -112,13 +114,13 @@ function isAPI(req) {
 
 /**
  * Middleware to set the language.
- * @param {Request} req 
- * @param {Response} res 
- * @param {Function} next 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
  */
 function language(req, res, next) {
-  req.language = req.params.lang; 
-  next(); 
+  req.language = req.params.lang;
+  next();
 }
 
 //#endregion
