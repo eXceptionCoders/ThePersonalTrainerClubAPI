@@ -93,7 +93,7 @@ router.post('/add', jwt(), [
 **/
 router.get('/find', jwt(), [
   query('sport').optional().isString().withMessage('SPORT_NOT_VALID'),
-  query('longitude').optional().isNumeric({min: -90, max:90}).withMessage('LONGITUDE_NOT_VALID'),
+  query('longitude').optional().isNumeric({min: -90, max: 90}).withMessage('LONGITUDE_NOT_VALID'),
   query('latitude').optional().isNumeric({min: -180, max: 180}).withMessage('LATITUDE_NOT_VALID'),
   query('distance').optional().isInt({min: 0, max: 20000}).withMessage('DISTANCE_NOT_VALID'),
   query('timetable').optional().isInt({min: 0, max: 3}).withMessage('TIMETABLE_NOT_VALID'),
@@ -123,8 +123,7 @@ router.get('/find', jwt(), [
       const result = await Class.list(filter, page, per_page, sort);
       res.ptcPaginatedResponse( result.rows, result.total );
     } catch (err) {
-      const error = new Error('INCORRECT_FILTERS')
-      return next(error);
+      return next(err);
     }
 });
 
