@@ -51,7 +51,8 @@
       "COMMENT_TOO_LONG": "Comment too long",
       "INCORRECT_DATA_LIST_SPORTS": "Incorrect data list sports",
       "INCORRECT_DATA_SPORTS": "Incorrect data sports",
-      "CAN_NOT_LIST_USERS": "Unable to list users"
+      "CAN_NOT_LIST_USERS": "Unable to list users",
+      "CAN_NOT_LIST_CLASSES": "Unable to list classes"
     }
   },
   "es": {
@@ -106,7 +107,8 @@
       "COMMENT_TOO_LONG": "El texto del comentario es demasiado largo",
       "INCORRECT_DATA_LIST_SPORTS": "La lista de datos de deportes esta incorrecta",
       "INCORRECT_DATA_SPORTS": "El deporte seleccinado no existe o esta incorrecto",
-      "CAN_NOT_LIST_USERS": "No se ha podido cargar la lista de usuarios"
+      "CAN_NOT_LIST_USERS": "No se ha podido cargar la lista de usuarios",
+      "CAN_NOT_LIST_CLASSES": "No se ha podido cargar la lista de clases"
     }
   }
 }
