@@ -22,8 +22,7 @@ router.post('/signup', [
   check('lastname').isString().withMessage('LASTNAME_NOT_VALID'),
   check('email').isEmail().withMessage('EMAIL_NOT_VALID'),
   check('coach').isBoolean().withMessage('COACH_NOT_VALID')
-  ]
-  ,(req, res, next) => {
+], async (req, res, next) => {
   const newUser = new User(req.body);
   newUser.save((err, userSaved ) => {
     if (err) {
@@ -43,7 +42,7 @@ router.post('/signup', [
 **/
 router.post('/login', [
   body('email').isEmail().withMessage('EMAIL_NOT_VALID')
-  ], async (req, res, next) => {
+], async (req, res, next) => {
   try {
     validationResult(req).throw();
 

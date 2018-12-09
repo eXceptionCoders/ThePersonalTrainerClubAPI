@@ -20,8 +20,7 @@ router.get('/find', jwt(),
         .populate('user')
       res.ptcDataResponse(dataBooking)  
     } catch (err) {
-      const error = new Error('BOOKING_ERROR')
-      return next(error)
+      return next(err)
     }
   });
 
@@ -45,8 +44,7 @@ router.post('/check', jwt(), [
     await newBooking.save()
     res.ptcResponse()
   } catch (err) {
-    const error = new Error ('DO_NOT_CREATE_CLASS')
-    return next(error);
+    return next(err);
   }
 });
 

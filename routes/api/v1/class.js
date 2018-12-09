@@ -37,46 +37,47 @@ router.post('/add', jwt(), [
   // check('interval').isNumeric({min: 1, max: 31}).withMessage('TIME_RANGE_NOT_VALID'),
   // check('time').isNumeric({min: 6, max: 24}).withMessage('TIME_RANGE_NOT_VALID')
 ], async (req, res, next) => {
-    try {
-      const data = req.body
-      // const location = await Location.findById(data.coordinates).exec()
-      // data.instructor = req.userId
-      // data.location = location.location
-      data.place = data.location.description;
-      delete data.location.description;
-      const newClass = new Class(data);
-      newClass.save((errClass, dataClass ) => {
-        if (!errClass) {
-          res.ptcResponse();
-        }
-      });
-    } catch (error) {
-      const err = new Error('INCORRECT_DATA_CLASS')
-      err.status = 401;
-      return next(err);
-    }
-    /*
-    try {
-      validationResult(req).throw()
+  try {
+    const data = req.body
+    // const location = await Location.findById(data.coordinates).exec()
+    // data.instructor = req.userId
+    // data.location = location.location
+    data.place = data.location.description;
+    delete data.location.description;
+    const newClass = new Class(data);
+    newClass.save((err, dataClass ) => {
+      if (err) {
+        next(err);
+        return;
+      }
       
-      const data = req.body
-      const arrayDateValid = await calculateValidDates(data.dateInitial, data.dateEnd, data.interval)
-      const location = await Location.findById(data.coordinates)
-      data.place = location.description
-      data.location = location.location
-      await Sport.findById(data.sport)
-      data.instructor = req.userId
-      await arrayDateValid.forEach(async function(currentData, i){
-        data.date = currentData
-        const newClass = new Class(data);
-        await newClass.save()
-      })
-      res.ptcResponse()
-    } catch (err) {
-      const error = new Error('INCORRECT_DATA_CLASS')
-      return next(error);
-    }
-    */
+      res.ptcResponse();
+    });
+  } catch (err) {
+    return next(err);
+  }
+  /*
+  try {
+    validationResult(req).throw()
+    
+    const data = req.body
+    const arrayDateValid = await calculateValidDates(data.dateInitial, data.dateEnd, data.interval)
+    const location = await Location.findById(data.coordinates)
+    data.place = location.description
+    data.location = location.location
+    await Sport.findById(data.sport)
+    data.instructor = req.userId
+    await arrayDateValid.forEach(async function(currentData, i){
+      data.date = currentData
+      const newClass = new Class(data);
+      await newClass.save()
+    })
+    res.ptcResponse()
+  } catch (err) {
+    const error = new Error('INCORRECT_DATA_CLASS')
+    return next(error);
+  }
+  */
 });
 
 /**
@@ -102,27 +103,27 @@ router.get('/find', jwt(), [
   query('page').isInt({ min: 0 }).withMessage('PAGE_MUST_BE_NUMERIC'),
   query('per_page').optional().isInt({ min: 1 }).withMessage('PER_PAGE_MUST_BE_NUMERIC')
 ], async (req, res, next) => {
-    try {
-      validationResult(req).throw();
+  try {
+    validationResult(req).throw();
 
-      const filter = {
-        sport: req.query.sport,
-        longitude: req.query.longitude,
-        latitude: req.query.latitude,
-        distance: req.query.distance,
-        timetable: req.query.timetable,
-        date: req.query.date,
-        price: req.query.price
-      };
+    const filter = {
+      sport: req.query.sport,
+      longitude: req.query.longitude,
+      latitude: req.query.latitude,
+      distance: req.query.distance,
+      timetable: req.query.timetable,
+      date: req.query.date,
+      price: req.query.price
+    };
 
-      const page = parseInt( req.query.page ) || 0;
-      const per_page = parseInt( req.query.per_page ) || 10;
+    const page = parseInt( req.query.page ) || 0;
+    const per_page = parseInt( req.query.per_page ) || 10;
 
-      const result = await Class.list(filter, page, per_page);
-      res.ptcPaginatedResponse( result.rows, result.total );
-    } catch (err) {
-      return next(err);
-    }
+    const result = await Class.list(filter, page, per_page);
+    res.ptcPaginatedResponse( result.rows, result.total );
+  } catch (err) {
+    return next(err);
+  }
 });
 
 module.exports = router

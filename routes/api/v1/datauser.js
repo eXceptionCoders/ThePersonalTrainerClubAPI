@@ -4,6 +4,15 @@ const express = require('express')
   ,router = express.Router()
   ,jwt = require('../../../lib/jwtAuth');
 
+const multer = require('multer')
+  , inMemoryStorage = multer.memoryStorage()
+  , uploadStrategy = multer({ storage: inMemoryStorage }).single('image')
+  
+  , azureStorage = require('azure-storage')
+  , blobService = azureStorage.createBlobService()
+
+  , getStream = require('into-stream');
+
 const User = require('../../../models/User');
 const Class = require('../../../models/Class');
 const Booking = require('../../../models/Booking');
@@ -13,8 +22,8 @@ const Booking = require('../../../models/Booking');
  * Return data user and dataClass of this user.
  * Query params:
 **/
-router.get('/', jwt()
-  ,async (req, res, next) => {
+router.get('/', jwt(),
+async (req, res, next) => {
   try {
     const instructorClass = await Class.find({instructor: req.userId})
       .populate('sport', '_id name icon category')
@@ -59,5 +68,36 @@ router.get('/', jwt()
     return next(err);
   }
 });
+
+router.post('/thumbnail', jwt(), uploadStrategy,
+async (req, res, next) => {
+  const
+   blobName = req.userId
+  ,stream = getStream(req.file.buffer)
+  ,streamLength = req.file.buffer.length;
+
+  const containerName = process.env.AZURE_USERS_THUMBNAILS_CONTAINER;
+
+  blobService.createContainerIfNotExists(containerName, {
+    publicAccessLevel: 'blob'
+  }, function(err, result, response) {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    blobService.createBlockBlobFromStream(containerName, blobName, stream, streamLength, err => {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      // const user = await User.findByIdA(req.userId);
+
+      res.ptcResponse();
+    });
+  });
+});
+
 
 module.exports = router;

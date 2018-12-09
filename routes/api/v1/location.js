@@ -32,8 +32,7 @@ router.post('/add', jwt(), [
     await User.findOneAndUpdate({_id: req.userId}, { $push: { locations: newLocation }});
     res.ptcResponse();
   } catch (err) {
-    const error = new Error('LOCATION_ERROR_CREATE')
-    return next(error);
+    return next(err);
   }
 })
 
@@ -66,8 +65,7 @@ router.post('/delete', jwt(), [
     );
     res.ptcResponse();
   } catch (err) {
-    const error = new Error('LOCATION_ERROR_DELETE')
-    return next(error);
+    return next(err);
   }
 })
 
