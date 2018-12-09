@@ -75,7 +75,7 @@ async (req, res, next) => {
 router.post('/thumbnail', jwt(), uploadStrategy,
 async (req, res, next) => {
   const
-   blobName = `${req.userId}-${req.file.originalname}`
+   blobName = `${req.userId}-${Math.random().toString().replace(/0\./, '')}-${req.file.originalname}`
   ,stream = getStream(req.file.buffer)
   ,streamLength = req.file.buffer.length;
 
@@ -98,7 +98,7 @@ async (req, res, next) => {
       }
 
       const thumbnail = process.env.AZURE_CDN + '/' + containerName + '/' + blobName;
-      User.findOneAndUpdate(req.userId, { thumbnail: thumbnail }, (err, userSaved) => {
+      User.findOneAndUpdate({ _id: req.userId }, { thumbnail: thumbnail }, (err, userSaved) => {
         if (err) {
           next(err);
           return;
