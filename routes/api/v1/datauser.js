@@ -4,7 +4,7 @@ const express = require('express')
   ,router = express.Router()
   ,jwt = require('../../../lib/jwtAuth');
 
-/*
+
 const multer = require('multer')
   , inMemoryStorage = multer.memoryStorage()
   , uploadStrategy = multer({ storage: inMemoryStorage }).single('image')
@@ -13,7 +13,7 @@ const multer = require('multer')
   , blobService = azureStorage.createBlobService()
 
   , getStream = require('into-stream');
-*/
+
 
 const User = require('../../../models/User');
 const Class = require('../../../models/Class');
@@ -71,7 +71,7 @@ async (req, res, next) => {
   }
 });
 
-/*
+
 router.post('/thumbnail', jwt(), uploadStrategy,
 async (req, res, next) => {
   const
@@ -96,12 +96,17 @@ async (req, res, next) => {
       }
 
       const thumbnail = process.env.AZURE_CDN + '/' + containerName + '/' + blobName;
-      await User.findByIdAndUpdate(req.userId, { thumbnail: thumbnail } );
+      User.findByIdAndUpdate(req.userId, { thumbnail: thumbnail }, (err, userSaved) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
-      res.ptcResponse();
+        res.ptcResponse();
+      });
     });
   });
 });
-*/
+
 
 module.exports = router;
