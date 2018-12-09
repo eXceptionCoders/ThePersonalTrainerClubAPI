@@ -34,7 +34,7 @@ router.post('/add', jwt(), [
   } catch (err) {
     return next(err);
   }
-})
+});
 
 /**
  * POST /
@@ -67,6 +67,6 @@ router.post('/delete', jwt(), [
   } catch (err) {
     return next(err);
   }
-})
+});
 
 module.exports = router;

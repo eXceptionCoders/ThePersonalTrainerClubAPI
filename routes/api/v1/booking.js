@@ -13,16 +13,16 @@ const Booking = require('../../../models/Booking')
  * Find booking for a user
 **/
 router.get('/find', jwt(),
-  async (req, res, next) => {
-    try {
-      const dataBooking = await Booking.find({user: req.userId})
-        .populate('class')
-        .populate('user')
-      res.ptcDataResponse(dataBooking)  
-    } catch (err) {
-      return next(err)
-    }
-  });
+async (req, res, next) => {
+  try {
+    const dataBooking = await Booking.find({user: req.userId})
+      .populate('class')
+      .populate('user')
+    res.ptcDataResponse(dataBooking)  
+  } catch (err) {
+    return next(err)
+  }
+});
 
 /**
  * POST /

@@ -53,7 +53,7 @@ router.post('/update', jwt(), [
     const arraySport = req.body.sports
     
     await User.findByIdAndUpdate(req.userId, { sports: arraySport })
-    res.ptcResponse()
+    res.ptcResponse();
   } catch (err) {
     return next(err);
   }

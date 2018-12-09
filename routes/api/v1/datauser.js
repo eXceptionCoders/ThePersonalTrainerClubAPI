@@ -72,7 +72,7 @@ async (req, res, next) => {
 router.post('/thumbnail', jwt(), uploadStrategy,
 async (req, res, next) => {
   const
-   blobName = req.userId
+   blobName = `${req.userId}-${req.file.originalname}`
   ,stream = getStream(req.file.buffer)
   ,streamLength = req.file.buffer.length;
 
