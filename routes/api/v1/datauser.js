@@ -92,7 +92,8 @@ async (req, res, next) => {
         return;
       }
 
-      // const user = await User.findByIdA(req.userId);
+      const thumbnail = process.env.AZURE_CDN + '/' + containerName + '/' + blobName;
+      await User.findByIdAndUpdate(req.userId, { thumbnail: thumbnail } );
 
       res.ptcResponse();
     });
