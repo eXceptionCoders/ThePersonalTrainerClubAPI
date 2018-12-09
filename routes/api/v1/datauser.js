@@ -79,6 +79,8 @@ async (req, res, next) => {
   ,stream = getStream(req.file.buffer)
   ,streamLength = req.file.buffer.length;
 
+  // TODO: reduce the image to a suitable size
+
   const containerName = process.env.AZURE_USERS_THUMBNAILS_CONTAINER;
 
   blobService.createContainerIfNotExists(containerName, {
@@ -96,7 +98,7 @@ async (req, res, next) => {
       }
 
       const thumbnail = process.env.AZURE_CDN + '/' + containerName + '/' + blobName;
-      User.findByIdAndUpdate(req.userId, { thumbnail: thumbnail }, (err, userSaved) => {
+      User.findOneAndUpdate(req.userId, { thumbnail: thumbnail }, (err, userSaved) => {
         if (err) {
           next(err);
           return;
