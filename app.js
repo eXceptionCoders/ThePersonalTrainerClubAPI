@@ -6,10 +6,13 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+
+
 
 const BaseResponse = require('./schema/BaseResponse');
 const DataResponse = require('./schema/DataResponse');
@@ -36,6 +39,7 @@ require('./lib/mongooseConnection');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev', {
@@ -43,6 +47,15 @@ app.use(logger('dev', {
     return res.statusCode < 400;
   }
 }));
+//enables cors
+app.use(cors({
+  'allowedHeaders': ['sessionId', 'Content-Type', 'X-Access-Token'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}));
+
 app.use(bodyParser.json());
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
