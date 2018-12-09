@@ -4,6 +4,7 @@ const express = require('express')
   ,router = express.Router()
   ,jwt = require('../../../lib/jwtAuth');
 
+/*
 const multer = require('multer')
   , inMemoryStorage = multer.memoryStorage()
   , uploadStrategy = multer({ storage: inMemoryStorage }).single('image')
@@ -12,6 +13,7 @@ const multer = require('multer')
   , blobService = azureStorage.createBlobService()
 
   , getStream = require('into-stream');
+*/
 
 const User = require('../../../models/User');
 const Class = require('../../../models/Class');
@@ -69,6 +71,7 @@ async (req, res, next) => {
   }
 });
 
+/*
 router.post('/thumbnail', jwt(), uploadStrategy,
 async (req, res, next) => {
   const
@@ -99,6 +102,6 @@ async (req, res, next) => {
     });
   });
 });
-
+*/
 
 module.exports = router;
