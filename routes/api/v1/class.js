@@ -95,10 +95,10 @@ router.get('/find', jwt(), [
   query('sport').optional().isString().withMessage('SPORT_NOT_VALID'),
   query('longitude').optional().isNumeric({min: -90, max: 90}).withMessage('LONGITUDE_NOT_VALID'),
   query('latitude').optional().isNumeric({min: -180, max: 180}).withMessage('LATITUDE_NOT_VALID'),
-  query('distance').optional().isInt({min: 0, max: 20000}).withMessage('DISTANCE_NOT_VALID'),
+  query('distance').optional().isInt({min: 0, max: 500000}).withMessage('DISTANCE_NOT_VALID'),
   query('timetable').optional().isInt({min: 0, max: 3}).withMessage('TIMETABLE_NOT_VALID'),
   query('date').optional().isString().withMessage('DATE_NOT_VALID'),
-  query('price').optional().isInt({min: 0, max: 50}).withMessage('PRICE_RANGE_NOT_VALID'),
+  query('price').optional().isString().withMessage('PRICE_RANGE_NOT_VALID'),
   query('page').isInt({ min: 0 }).withMessage('PAGE_MUST_BE_NUMERIC'),
   query('per_page').optional().isInt({ min: 1 }).withMessage('PER_PAGE_MUST_BE_NUMERIC')
 ], async (req, res, next) => {
