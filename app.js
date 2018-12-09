@@ -6,7 +6,7 @@
 'use strict';
 
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -47,6 +47,7 @@ app.use(logger('dev', {
     return res.statusCode < 400;
   }
 }));
+/*
 //enables cors
 app.use(cors({
   'allowedHeaders': ['sessionId', 'Content-Type', 'X-Access-Token'],
@@ -55,7 +56,7 @@ app.use(cors({
   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
   'preflightContinue': false
 }));
-
+*/
 app.use(bodyParser.json());
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
