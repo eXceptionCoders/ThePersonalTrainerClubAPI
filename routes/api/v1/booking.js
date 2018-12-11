@@ -70,7 +70,7 @@ router.delete('/:id', jwt(),
 async (req, res, next) => {
   try {
 
-    Booking.deleteMany({ class: req.params.id }, function (err) {
+    Booking.deleteOne({ _id: req.params.id }, function (err) {
       if (err) {
         next(err);
         return;
