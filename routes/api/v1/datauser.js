@@ -63,7 +63,7 @@ async (req, res, next) => {
           sports: findUser.sports,
           locations: findUser.locations, 
           classes: instructorClass, 
-          activeBookings: (userClass || []).map(booking => booking.class)
+          activeBookings: (userClass || []).map(booking => Object.assign( booking.class.toJSON(), { booking: booking._id } ))
         });
       });
   } catch (err) {
