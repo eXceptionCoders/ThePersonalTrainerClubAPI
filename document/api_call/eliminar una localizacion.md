@@ -13,7 +13,9 @@
 
 ```json
 {
-    "idLocation": "5bfc1a6440dbed0d99ed5755"
+    "description": "Gimnaso PEOPLE",
+    "longituded": 40.132334,
+    "latitude": -1.345643,
 }
 ```
 ##### Headers

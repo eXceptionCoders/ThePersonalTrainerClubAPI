@@ -2,11 +2,11 @@
 
 | URI                         | METHOD | HEADERS                |
 | --------------------------- | ------ | ------------------- |
-| `/api/v1/:lang/data/user` | `GET`  | `{ x-access-token }` |
+| `/api/v1/:lang/datauser` | `GET`  | `{ x-access-token }` |
 
 ### Example
 
-`http://localhost:3000/api/v1/es/data/user/`
+`http://localhost:3000/api/v1/es/datauser`
 
 ##### Headers
 
@@ -23,40 +23,89 @@
     "version": "1.0.0",
     "status": "success",
     "message": "OK",
-    "datetime": "2017-12-16T20:22:06.386Z",
+    "datetime": "2018-12-11T20:59:12.194Z",
     "data": {
+        "_id": "5c0c31e07a487446d42b59dc",
         "coach": true,
-        "name": "Carlos",
-        "lastname": "Sanchez",
-        "thumbnail": "https://randomuser.me/api/portraits/med/men/3.jpg",
-        "sport": [
+        "name": "David",
+        "lastname": "López Rodríguez",
+        "email": "david@gmail.com",
+        "gender": "male",
+        "thumbnail": "https://thepersonaltrainerclubcdn-dev.azureedge.net/thumbnails/5c0c31e07a487446d42b59dc-29360183925251304-user-profile.jpg",
+        "sports": [
             {
-                "type": "sport",
-                "_id": "5bef2db30ae5006f4c51d455",
-                "name": "tenis",
-                "category": "5bef2db10ae5006f4c51d440",
-              "__v": 0
+                "_id": "5c072a344d8e218c090e1f58",
+                "name": "judo",
+                "category": "5c072a334d8e218c090e1f50",
+                "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/jugo.png"
             },
-        ],
-         "location": [
             {
-                "type": "location",
-                "_id": "5bfc1a6440dbed0d99ed5755",
-                "description": "Manuel",
+                "_id": "5c072a334d8e218c090e1f52",
+                "name": "futbol",
+                "category": "5c072a334d8e218c090e1f4e",
+                "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/futbol.png"
+            }
+        ],
+        "locations": [
+            {
+                "type": "Point",
+                "coordinates": [
+                    28.4815286,
+                    -16.4119972
+                ],
+                "_id": "5c0c37e07a487446d42b59e1",
+                "description": "Tacoronte",
+                "updatedAt": "2018-12-08T21:30:08.337Z",
+                "createdAt": "2018-12-08T21:30:08.337Z"
+            },
+            {
+                "type": "Point",
+                "coordinates": [
+                    28.4777978,
+                    -16.3117767
+                ],
+                "_id": "5c0c37f77a487446d42b59e2",
+                "description": "La Laguna",
+                "updatedAt": "2018-12-08T21:30:31.949Z",
+                "createdAt": "2018-12-08T21:30:31.949Z"
+            }
+        ],
+        "classes": [
+            {
                 "location": {
                     "type": "Point",
                     "coordinates": [
-                        40.357182,
-                        -1.182673
-                    ],
-                    "_id": "5bfc1a6440dbed0d99ed5756"
+                        28.4815286,
+                        -16.4119972
+                    ]
                 },
-                "user": "5bfbfc958a31150c2e44f7fa",
-                "createdAt": "2018-11-26T16:08:04.481Z",
-                "updatedAt": "2018-11-26T16:08:04.481Z",
+                "type": "class",
+                "registered": 0,
+                "_id": "5c0c3dc67a487446d42b59e4",
+                "sport": {
+                    "_id": "5c072a334d8e218c090e1f52",
+                    "name": "futbol",
+                    "category": "5c072a334d8e218c090e1f4e",
+                    "icon": "https://thepersonaltrainerclubcdn-dev.azureedge.net/activities/futbol.png"
+                },
+                "price": 25,
+                "duration": 30,
+                "maxusers": 30,
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "instructor": {
+                    "_id": "5c0c31e07a487446d42b59dc",
+                    "lastname": "López Rodríguez",
+                    "name": "David",
+                    "thumbnail": "https://thepersonaltrainerclubcdn-dev.azureedge.net/thumbnails/5c0c31e07a487446d42b59dc-29360183925251304-user-profile.jpg"
+                },
+                "place": "Tacoronte",
+                "date": "2018-12-08T21:55:18.399Z",
+                "createdAt": "2018-12-08T21:55:18.399Z",
+                "updatedAt": "2018-12-08T21:55:18.399Z",
                 "__v": 0
             }
-        ]
+        ],
+        "activeBookings": []
     }
 }
 ```

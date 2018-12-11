@@ -36,13 +36,48 @@ router.post('/check', jwt(), [
   try {
     validationResult(req).throw();
 
-    const placeTrue = await Class.findById(req.body.class)
-    if (placeTrue.registered > placeTrue.maxusers) throw new Error()
-    await Class.findByIdAndUpdate(req.body.class, {$inc: {registered: 1}})
-    req.body.user = req.userId
-    const newBooking = await new Booking(req.body)
-    await newBooking.save()
-    res.ptcResponse()
+    // TODO
+    // const placeTrue = await Class.findById(req.body.class)
+    //if (placeTrue.registered > placeTrue.maxusers) { 
+    //  throw new Error();
+    //}
+
+    const booking = {
+      class: req.body.class,
+      user: req.userId
+    };
+
+    await Class.findOneAndUpdate({ _id: booking.class }, { $inc: { registered: 1 }});
+    const newBooking = new Booking(booking);
+    newBooking.save((err) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      
+      res.ptcResponse();
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/**
+ * Delete /
+ * Return class
+**/
+router.delete('/:id', jwt(),
+async (req, res, next) => {
+  try {
+
+    Booking.deleteMany({ class: req.params.id }, function (err) {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      res.ptcResponse();
+    });
   } catch (err) {
     return next(err);
   }

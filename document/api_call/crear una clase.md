@@ -13,7 +13,12 @@
 
 ```json
 {
-    "sport": "tenis",
+    "sport": "id",
+    "location": {
+        "type": "Point",
+        "description": "",
+        "coordinates": []
+    },
     "duration": 30,
     "price": 20,
     "desription": "Clase de tecnica basica"

@@ -6,6 +6,7 @@ const express = require('express')
 
 const { check, query, validationResult } = require('express-validator/check');
 const Class = require('../../../models/Class');
+const Booking = require('../../../models/Booking');
 
 /**
  * POST /
@@ -56,28 +57,6 @@ router.post('/add', jwt(), [
   } catch (err) {
     return next(err);
   }
-  /*
-  try {
-    validationResult(req).throw()
-    
-    const data = req.body
-    const arrayDateValid = await calculateValidDates(data.dateInitial, data.dateEnd, data.interval)
-    const location = await Location.findById(data.coordinates)
-    data.place = location.description
-    data.location = location.location
-    await Sport.findById(data.sport)
-    data.instructor = req.userId
-    await arrayDateValid.forEach(async function(currentData, i){
-      data.date = currentData
-      const newClass = new Class(data);
-      await newClass.save()
-    })
-    res.ptcResponse()
-  } catch (err) {
-    const error = new Error('INCORRECT_DATA_CLASS')
-    return next(error);
-  }
-  */
 });
 
 /**
@@ -121,6 +100,36 @@ router.get('/find', jwt(), [
 
     const result = await Class.list(filter, page, per_page);
     res.ptcPaginatedResponse( result.rows, result.total );
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+/**
+ * Delete /
+ * Return class
+**/
+router.delete('/:id', jwt(),
+async (req, res, next) => {
+  try {
+
+    Booking.deleteMany({ class: req.params.id }, function(err) {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      Class.deleteOne({ _id: req.params.id }, function (err) {
+        if (err) {
+          next(err);
+          return;
+        }
+
+        res.ptcResponse();
+      });
+    });
+
   } catch (err) {
     return next(err);
   }

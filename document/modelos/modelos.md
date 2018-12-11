@@ -11,6 +11,7 @@
   "email": "",
   "password": "",
   "sports": [ "_idSport" ],
+  "locations": [ "Locations" ]
 }
 ```
 ### Categoty
@@ -29,20 +30,6 @@
   "category": "_idCategoty"
 }
 ```
-### Location
-```json
-{
-  "type": "location",
-  "user": "_id_user",
-  "description": "",
-  "location": {
-    "type" :{
-      "type" : "Point",
-      "coordenates" : "[Number]"
-    }
-  }
-}
-```
 ### Cancelation
 ```json
 {
@@ -59,10 +46,12 @@
   "type": "classes",
   "instructor": "_idUser",
   "sport": "_idSport",
+  "place": "String",
+  "location": "Location",
   "duration": "Number",
   "price": "Number",
   "resgistered": "Number",
-   "description": ""
+  "description": ""
 }
 ```
 ### Booking
